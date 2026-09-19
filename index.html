@@ -119,6 +119,19 @@ table{border-collapse:collapse;width:100%;font-size:12.5px;}
 .auto-tag{display:inline-block;background:var(--amber-100);color:var(--amber-500);font-size:10px;font-weight:700;letter-spacing:.03em;padding:1px 5px;border-radius:2px;margin-left:4px;}
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
 
+/* ---------- Space Frame additions (reuse existing tokens throughout) ---------- */
+#structural-system-toggle{display:flex;gap:0;margin:0 10px 10px;border:1px solid var(--navy-900);border-radius:var(--radius);overflow:hidden;}
+.sys-toggle-btn{flex:1 1 50%;background:var(--navy-950);color:#9caebd;border:none;padding:9px 6px;font-size:11px;font-weight:700;letter-spacing:.01em;text-transform:uppercase;cursor:pointer;}
+.sys-toggle-btn.active{background:var(--steel-500);color:#fff;}
+.sys-toggle-btn:not(.active):hover{background:var(--navy-900);color:#fff;}
+.field-group{margin-bottom:4px;}
+.callout{font-size:11.5px;color:var(--navy-900);background:var(--steel-100);border-left:3px solid var(--steel-500);padding:8px 10px;border-radius:2px;margin:10px 0;line-height:1.5;}
+.badge{display:inline-block;background:var(--navy-900);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;}
+@media (max-width:760px){
+  #structural-system-toggle{margin:0 0 6px;border-radius:0;}
+  .sys-toggle-btn{font-size:10px;padding:8px 2px;}
+}
+
 details.advanced{margin:10px 0;border:1px solid var(--line);border-radius:var(--radius);padding:2px 10px;background:var(--paper-50);}
 details.advanced summary{cursor:pointer;font-size:11.5px;font-weight:700;color:var(--steel-600);padding:6px 0;text-transform:uppercase;letter-spacing:.02em;}
 
@@ -235,21 +248,44 @@ details.advanced summary{cursor:pointer;font-size:11.5px;font-weight:700;color:v
   <div id="app-body">
 
     <nav id="nav-rail">
-      <button class="nav-item active" data-panel="project">1. Project</button>
-      <button class="nav-item" data-panel="geometry">2. Geometry</button>
-      <button class="nav-item" data-panel="roof">3. Roof / Truss</button>
-      <button class="nav-item" data-panel="materials">4. Materials</button>
-      <button class="nav-item" data-panel="sections">5. Sections</button>
-      <button class="nav-item" data-panel="supports">6. Supports</button>
-      <button class="nav-item" data-panel="bracing">7. Bracing</button>
-      <button class="nav-item" data-panel="wind">8. Wind Load</button>
-      <button class="nav-item" data-panel="deadload">9. Dead Load</button>
-      <button class="nav-item" data-panel="liveload">10. Live Load</button>
-      <button class="nav-item" data-panel="solar">11. Solar Load</button>
-      <button class="nav-item" data-panel="loadcases">12. Load Cases</button>
-      <button class="nav-item" data-panel="combinations">13. Load Combinations</button>
-      <button class="nav-item" data-panel="staadgen">14. STAAD Generator</button>
-      <button class="nav-item" data-panel="report">15. Calculation Report</button>
+      <div id="structural-system-toggle" role="group" aria-label="Structural System">
+        <button class="sys-toggle-btn active" id="sys-btn-peb" data-system="peb">PEB / Truss</button>
+        <button class="sys-toggle-btn" id="sys-btn-spaceframe" data-system="spaceFrame">Space Frame</button>
+      </div>
+
+      <div id="nav-peb-items">
+        <button class="nav-item active" data-panel="project">1. Project</button>
+        <button class="nav-item" data-panel="geometry">2. Geometry</button>
+        <button class="nav-item" data-panel="roof">3. Roof / Truss</button>
+        <button class="nav-item" data-panel="materials">4. Materials</button>
+        <button class="nav-item" data-panel="sections">5. Sections</button>
+        <button class="nav-item" data-panel="supports">6. Supports</button>
+        <button class="nav-item" data-panel="bracing">7. Bracing</button>
+        <button class="nav-item" data-panel="wind">8. Wind Load</button>
+        <button class="nav-item" data-panel="deadload">9. Dead Load</button>
+        <button class="nav-item" data-panel="liveload">10. Live Load</button>
+        <button class="nav-item" data-panel="solar">11. Solar Load</button>
+        <button class="nav-item" data-panel="loadcases">12. Load Cases</button>
+        <button class="nav-item" data-panel="combinations">13. Load Combinations</button>
+        <button class="nav-item" data-panel="staadgen">14. STAAD Generator</button>
+        <button class="nav-item" data-panel="report">15. Calculation Report</button>
+      </div>
+
+      <div id="nav-sf-items" style="display:none">
+        <button class="nav-item" data-panel="sf-type">1. Space Frame Type</button>
+        <button class="nav-item" data-panel="sf-geometry">2. Basic Geometry</button>
+        <button class="nav-item" data-panel="sf-surface">3. Surface Shape</button>
+        <button class="nav-item" data-panel="sf-grid">4. Grid Pattern</button>
+        <button class="nav-item" data-panel="sf-layers">5. Layer &amp; Depth</button>
+        <button class="nav-item" data-panel="sf-members">6. Member Pattern</button>
+        <button class="nav-item" data-panel="sf-sections">7. Sections</button>
+        <button class="nav-item" data-panel="sf-supports">8. Supports</button>
+        <button class="nav-item" data-panel="sf-loads">9. Loads</button>
+        <button class="nav-item" data-panel="sf-edit">10. 3D Edit</button>
+        <button class="nav-item" data-panel="sf-validate">11. Validate</button>
+        <button class="nav-item" data-panel="sf-staadgen">12. STAAD Generator</button>
+        <button class="nav-item" data-panel="sf-report">13. Report</button>
+      </div>
     </nav>
 
     <aside id="input-panel-host">
@@ -503,6 +539,12 @@ details.advanced summary{cursor:pointer;font-size:11.5px;font-weight:700;color:v
 
         <div class="wtab-content" data-wtabcontent="cpe" style="display:none">
           <div class="field"><label><input type="checkbox" data-path="wind.cpeAuto" id="cpe-auto-checkbox"> Auto-calculate Cpe from building geometry <span class="auto-tag">AUTO – VERIFY WITH IS 875 (PART 3) TABLE</span></label></div>
+          <div class="field-row">
+            <div class="field"><label>Length (X), m</label><input type="number" step="0.1" data-path="geometry.length"></div>
+            <div class="field"><label>Width / Span (Z), m</label><input type="number" step="0.1" data-path="geometry.width"></div>
+          </div>
+          <div class="field"><label>Eave Height, m</label><input type="number" step="0.1" data-path="geometry.eaveHeight"></div>
+          <p class="hint">Same fields as the Geometry tab — editing them here updates the whole model, not just Cpe.</p>
           <p class="hint" id="cpe-auto-summary"></p>
 
           <h3>Wind Direction 0° (along length)</h3>
@@ -626,6 +668,385 @@ details.advanced summary{cursor:pointer;font-size:11.5px;font-weight:700;color:v
         <div id="report-view" class="report-view"></div>
       </section>
 
+      <!-- ================= SPACE FRAME PANELS ================= -->
+
+      <!-- SF 1. SPACE FRAME TYPE -->
+      <section class="panel" data-panel="sf-type">
+        <h2>Space Frame Type</h2>
+        <p class="hint">Pick a starting template — every shape below remains fully editable afterwards by dragging its control points in the <b>3D Edit</b> step, so this choice is just a convenient starting point, not a fixed mould.</p>
+        <div class="card-select" id="sf-type-cards">
+          <button class="card" data-value="flat">Flat Grid</button>
+          <button class="card" data-value="gable">Pitched / Gable</button>
+          <button class="card" data-value="singleSlope">Single Slope</button>
+          <button class="card" data-value="barrel">Barrel Vault</button>
+          <button class="card" data-value="dome">Dome</button>
+          <button class="card" data-value="pyramid">Pyramid</button>
+          <button class="card" data-value="wave">Wave</button>
+          <button class="card" data-value="saddle">Saddle / Hypar</button>
+          <button class="card" data-value="freeform">Custom / Freeform</button>
+        </div>
+        <p class="hint" id="sf-type-note"></p>
+        <div class="callout" style="margin-top:10px;">
+          <b>Honest scope note.</b> Folded and general "Curved" aren't separate formula templates — sculpt either look from Flat/Barrel/Dome using the freeform control-point tools in 3D Edit (drag, smooth, flatten, mirror). Every shape here already IS the general parametric/freeform surface described in the brief; "Custom/Freeform" simply starts flat with no formula applied.
+        </div>
+      </section>
+
+      <!-- SF 2. BASIC GEOMETRY -->
+      <section class="panel" data-panel="sf-geometry">
+        <h2>Basic Geometry</h2>
+        <div class="field-row">
+          <div class="field"><label>Length (X), m</label><input type="number" step="0.1" data-path="spaceFrame.length"></div>
+          <div class="field"><label>Width (Z), m</label><input type="number" step="0.1" data-path="spaceFrame.width"></div>
+        </div>
+        <h3>Grid Resolution</h3>
+        <div class="radio-row">
+          <label><input type="radio" name="sfGridSpacingMode" data-path="spaceFrame.gridSpacingMode" data-value="divisions"> Number of divisions</label>
+          <label><input type="radio" name="sfGridSpacingMode" data-path="spaceFrame.gridSpacingMode" data-value="spacing"> Target grid spacing</label>
+        </div>
+        <div class="field-row" id="sf-field-divisions">
+          <div class="field"><label>Divisions X</label><input type="number" step="1" min="1" data-path="spaceFrame.divX"></div>
+          <div class="field"><label>Divisions Z</label><input type="number" step="1" min="1" data-path="spaceFrame.divY"></div>
+        </div>
+        <div class="field-row" id="sf-field-spacing" style="display:none">
+          <div class="field"><label>Target spacing X, m</label><input type="number" step="0.1" data-path="spaceFrame.targetSpacingX"></div>
+          <div class="field"><label>Target spacing Z, m</label><input type="number" step="0.1" data-path="spaceFrame.targetSpacingY"></div>
+        </div>
+        <p class="hint" id="sf-grid-resolved-hint"></p>
+        <p class="hint">This is the control-point grid too (spec's "X/Y direction control points") — every intersection is draggable in 3D Edit. Even-numbered divisions keep a symmetric shape's ridge/peak sitting exactly on a node.</p>
+      </section>
+
+      <!-- SF 3. SURFACE SHAPE -->
+      <section class="panel" data-panel="sf-surface">
+        <h2>Surface Shape Parameters</h2>
+        <div id="sf-surface-fields">
+          <div class="field-group" data-shapefields="gable,singleSlope">
+            <div class="field-row">
+              <div class="field"><label>Eave level, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.eave"></div>
+              <div class="field"><label>Ridge level, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.ridge"></div>
+            </div>
+            <div class="field" data-shapefields="gable"><label>Ridge position (0–1 across width)</label><input type="number" step="0.05" min="0.05" max="0.95" data-path="spaceFrame.surface.ridgePos"></div>
+          </div>
+          <div class="field-group" data-shapefields="barrel">
+            <div class="field-row">
+              <div class="field"><label>Rise, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.rise"></div>
+              <div class="field"><label>Arch axis</label>
+                <select data-path="spaceFrame.surface.direction"><option value="Z">Across width (vault runs along length)</option><option value="X">Along length (vault runs across width)</option></select>
+              </div>
+            </div>
+          </div>
+          <div class="field-group" data-shapefields="dome">
+            <div class="field-row">
+              <div class="field"><label>Rise, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.rise"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Centre X (0–1)</label><input type="number" step="0.05" min="0" max="1" data-path="spaceFrame.surface.centerX"></div>
+              <div class="field"><label>Centre Z (0–1)</label><input type="number" step="0.05" min="0" max="1" data-path="spaceFrame.surface.centerY"></div>
+            </div>
+          </div>
+          <div class="field-group" data-shapefields="pyramid">
+            <div class="field"><label>Rise (apex height), m</label><input type="number" step="0.1" data-path="spaceFrame.surface.rise"></div>
+          </div>
+          <div class="field-group" data-shapefields="wave">
+            <div class="field-row">
+              <div class="field"><label>Wave height, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.waveHeight"></div>
+              <div class="field"><label>Number of waves</label><input type="number" step="0.5" min="0.5" data-path="spaceFrame.surface.waveCount"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Wave direction</label><select data-path="spaceFrame.surface.direction"><option value="X">Along length</option><option value="Z">Across width</option></select></div>
+              <div class="field"><label>Phase, rad</label><input type="number" step="0.1" data-path="spaceFrame.surface.wavePhase"></div>
+            </div>
+          </div>
+          <div class="field-group" data-shapefields="saddle">
+            <div class="field-row">
+              <div class="field"><label>Rise at corners, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.cornerRise"></div>
+              <div class="field"><label>Depression at centre, m</label><input type="number" step="0.1" data-path="spaceFrame.surface.centerDepression"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Curvature (blend, 1 = classic hypar)</label><input type="number" step="0.1" min="0.2" data-path="spaceFrame.surface.curvature"></div>
+              <div class="field"><label>Diagonal</label><select data-path="spaceFrame.surface.direction"><option value="A">Corners A rise</option><option value="B">Corners B rise</option></select></div>
+            </div>
+          </div>
+          <p class="hint" data-shapefields="flat,freeform">Flat/Freeform have no formula parameters — go straight to <b>3D Edit</b> and drag control points to sculpt the surface.</p>
+        </div>
+
+        <h3 style="margin-top:18px;">Shape Morph <span class="hint" style="display:inline;padding:2px 6px;">(spec item 18 — blend toward another shape)</span></h3>
+        <div class="field"><label>Morph target</label>
+          <select data-path="spaceFrame.morph.targetType" id="sf-morph-target">
+            <option value="flat">Flat</option><option value="gable">Gable</option><option value="singleSlope">Single Slope</option>
+            <option value="barrel">Barrel</option><option value="dome">Dome</option><option value="pyramid">Pyramid</option>
+            <option value="wave">Wave</option><option value="saddle">Saddle</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Morph amount: <span id="sf-morph-pct">0%</span></label>
+          <input type="range" min="0" max="100" value="0" id="sf-morph-slider">
+        </div>
+        <div class="btn-row"><button class="btn small" id="btn-sf-morph-commit">Commit Morph to Control Points</button></div>
+        <p class="hint">Dragging the slider previews the blend live; "Commit" bakes it into the control points so it becomes the new editable shape (and adds an Undo step).</p>
+      </section>
+
+      <!-- SF 4. GRID PATTERN -->
+      <section class="panel" data-panel="sf-grid">
+        <h2>Grid Pattern</h2>
+        <p class="hint">Independent of the surface shape above (spec item 6) — changing this regenerates member connectivity only, the surface itself is untouched.</p>
+        <div class="field"><label>Grid pattern</label>
+          <select data-path="spaceFrame.gridPattern" id="sf-gridpattern-select">
+            <option value="square">Square (aligned layers, vertical webs)</option>
+            <option value="diagonalGrid">Diagonal (aligned layers, single-direction web diagonals)</option>
+            <option value="triangular">Triangular (aligned layers, alternating web diagonals)</option>
+            <option value="offsetPyramid">Square-on-Square (offset pyramid — classic double-layer space frame)</option>
+            <option value="squareOnDiagonal">Square-on-Diagonal (uses Square-on-Square for now)</option>
+            <option value="hexagonal">Hexagonal (uses Triangular for now)</option>
+            <option value="triOnTri">Triangular-on-Triangular (uses Triangular for now)</option>
+            <option value="custom">Custom (uses Square-on-Square for now)</option>
+          </select>
+        </div>
+        <p class="hint" id="sf-gridpattern-note"></p>
+        <div class="field" id="sf-diagonalpattern-field"><label>Diagonal pattern (single-layer / aligned-layer webs)</label>
+          <select data-path="spaceFrame.members.diagonalPattern">
+            <option value="normal">Normal (single direction)</option>
+            <option value="alternate">Alternate (triangulated)</option>
+            <option value="cross">Cross (both diagonals — X-bracing)</option>
+            <option value="single">Single diagonal</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- SF 5. LAYER & DEPTH -->
+      <section class="panel" data-panel="sf-layers">
+        <h2>Layer &amp; Depth</h2>
+        <div class="radio-row">
+          <label><input type="radio" name="sfLayers" data-path="spaceFrame.layers" data-value="single"> Single Layer</label>
+          <label><input type="radio" name="sfLayers" data-path="spaceFrame.layers" data-value="double"> Double Layer</label>
+          <label><input type="radio" name="sfLayers" data-path="spaceFrame.layers" data-value="triple"> Triple Layer</label>
+        </div>
+        <div id="sf-depth-fields">
+          <h3>Space Frame Depth</h3>
+          <div class="radio-row">
+            <label><input type="radio" name="sfDepthMode" data-path="spaceFrame.depth.mode" data-value="auto"> Automatic <span class="auto-tag">AUTO</span></label>
+            <label><input type="radio" name="sfDepthMode" data-path="spaceFrame.depth.mode" data-value="constant"> Constant / Custom value</label>
+          </div>
+          <div class="field" id="sf-field-depthvalue"><label>Depth (top-to-bottom), m</label><input type="number" step="0.05" min="0.05" data-path="spaceFrame.depth.value"></div>
+          <p class="hint" id="sf-depth-auto-hint"></p>
+          <p class="hint">Variable per-point depth control (bottom layer independently sculpted from the top) and independently-editable triple-layer mid-surface control points are not yet available — the triple-layer mid surface currently sits at a fixed half-depth split.</p>
+        </div>
+      </section>
+
+      <!-- SF 6. MEMBER PATTERN -->
+      <section class="panel" data-panel="sf-members">
+        <h2>Member Pattern</h2>
+        <p class="hint">Each category is generated and shown/hidden/sectioned independently (spec item 8).</p>
+        <div class="checkline-grid">
+          <label class="checkline"><input type="checkbox" data-path="spaceFrame.members.topChord"> Top Chord</label>
+          <label class="checkline" id="sf-member-bottomchord"><input type="checkbox" data-path="spaceFrame.members.bottomChord"> Bottom Chord</label>
+          <label class="checkline" id="sf-member-diagonal"><input type="checkbox" data-path="spaceFrame.members.diagonal"> Diagonal</label>
+          <label class="checkline" id="sf-member-vertical"><input type="checkbox" data-path="spaceFrame.members.vertical"> Vertical</label>
+          <label class="checkline"><input type="checkbox" data-path="spaceFrame.members.edge"> Edge / Perimeter</label>
+          <label class="checkline"><input type="checkbox" data-path="spaceFrame.members.crossDiagonal"> Cross Diagonal (in-plane bracing)</label>
+        </div>
+        <div class="field" id="sf-verticalpattern-field"><label>Vertical members</label>
+          <select data-path="spaceFrame.members.verticalPattern">
+            <option value="everyGrid">Every grid point</option>
+            <option value="alternate">Alternate (checkerboard)</option>
+          </select>
+        </div>
+        <p class="hint" id="sf-member-layer-hint"></p>
+      </section>
+
+      <!-- SF 7. SECTIONS -->
+      <section class="panel" data-panel="sf-sections">
+        <h2>Section Assignment</h2>
+        <div id="sf-sections-editor"></div>
+        <h3 style="margin-top:16px;">Apply to Selected Members</h3>
+        <p class="hint">Select members in the 3D view (click, shift-click to add) or via the Member List below, then choose a category and section here to apply it to just that selection.</p>
+        <div class="field-row">
+          <div class="field"><label>Category</label>
+            <select id="sf-apply-section-category">
+              <option value="topChord">Top Chord</option><option value="bottomChord">Bottom Chord</option>
+              <option value="diagonal">Diagonal</option><option value="vertical">Vertical</option><option value="edge">Edge</option>
+            </select>
+          </div>
+          <div class="field"><label>Selected members</label><input type="text" id="sf-selected-members-count" readonly value="0"></div>
+        </div>
+        <div class="btn-row"><button class="btn small" id="btn-sf-apply-section-selected">Apply Category's Section to Selected</button></div>
+        <h3 style="margin-top:16px;">Member List</h3>
+        <div id="sf-member-list-table" class="mini-table member-list-scroll"></div>
+      </section>
+
+      <!-- SF 8. SUPPORTS -->
+      <section class="panel" data-panel="sf-supports">
+        <h2>Support System</h2>
+        <div class="field"><label>Support type</label>
+          <select data-path="spaceFrame.supports.type">
+            <option value="fixed">Fixed</option><option value="pinned">Pinned</option><option value="roller">Roller</option><option value="custom">Custom</option>
+          </select>
+        </div>
+        <h3>Assign Supports</h3>
+        <div class="btn-row">
+          <button class="btn small" id="btn-sf-supports-corners">All Corner Nodes</button>
+          <button class="btn small" id="btn-sf-supports-edges">All Edge Nodes</button>
+          <button class="btn small" id="btn-sf-supports-selected">Add Currently Selected Nodes</button>
+          <button class="btn small" id="btn-sf-supports-clear">Clear All Supports</button>
+        </div>
+        <p class="hint">You can also select one or more top nodes/control points directly in the 3D view (Edit Surface must be on) and click "Add Currently Selected Nodes".</p>
+        <p class="hint" id="sf-support-count-hint"></p>
+        <div id="sf-support-list" class="mini-table"></div>
+      </section>
+
+      <!-- SF 9. LOADS -->
+      <section class="panel" data-panel="sf-loads">
+        <h2>Loads</h2>
+        <label class="checkline"><input type="checkbox" data-path="spaceFrame.loads.selfWeight"> Include Self Weight (from assigned sections)</label>
+        <div class="field-row">
+          <div class="field"><label>Dead Load, kN/m²</label><input type="number" step="0.01" data-path="spaceFrame.loads.deadLoadKNm2"></div>
+          <div class="field"><label>Live / Roof Load, kN/m²</label><input type="number" step="0.01" data-path="spaceFrame.loads.liveLoadKNm2"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Solar Load, kN/m²</label><input type="number" step="0.01" data-path="spaceFrame.loads.solarKNm2"></div>
+          <div class="field"><label>Temperature ΔT, °C</label><input type="number" step="1" data-path="spaceFrame.loads.tempDeltaC"></div>
+        </div>
+        <div class="callout">Area loads above are converted to nodal loads automatically using each node's tributary area (spec item 14) — e.g. a 1.5 kN/m² roof load over a 3 m × 2.5 m tributary cell becomes an 11.25 kN nodal force. See the STAAD preview or Report for the resulting per-node values.</div>
+
+        <h3 style="margin-top:16px;">Wind Load</h3>
+        <label class="checkline"><input type="checkbox" data-path="spaceFrame.loads.wind.enabled"> Include Wind Load</label>
+        <div id="sf-wind-fields">
+          <div class="field-row">
+            <div class="field"><label>Basic wind speed Vb, m/s</label><input type="number" step="0.5" data-path="spaceFrame.loads.wind.Vb"></div>
+            <div class="field"><label>k1 (risk)</label><input type="number" step="0.01" data-path="spaceFrame.loads.wind.k1"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>k2 (terrain)</label><input type="number" step="0.01" data-path="spaceFrame.loads.wind.k2"></div>
+            <div class="field"><label>k3 (topography)</label><input type="number" step="0.01" data-path="spaceFrame.loads.wind.k3"></div>
+            <div class="field"><label>k4 (importance)</label><input type="number" step="0.01" data-path="spaceFrame.loads.wind.k4"></div>
+          </div>
+          <p class="hint">pz = 0.6·Vz² (IS 875 Part 3 form). This is a simplified constant-Cp-per-orientation model — <b>not</b> a full code wind-tunnel/pressure-coefficient table — verify against your applicable wind code for final design, the same way the PEB system's own AUTO wind values are labelled.</p>
+          <div class="checkline-grid">
+            <label class="checkline"><input type="checkbox" data-path="spaceFrame.loads.wind.directions.plusX"> Wind +X</label>
+            <label class="checkline"><input type="checkbox" data-path="spaceFrame.loads.wind.directions.minusX"> Wind −X</label>
+            <label class="checkline"><input type="checkbox" data-path="spaceFrame.loads.wind.directions.plusY"> Wind +Y (+Z plan axis)</label>
+            <label class="checkline"><input type="checkbox" data-path="spaceFrame.loads.wind.directions.minusY"> Wind −Y (−Z plan axis)</label>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Cp windward</label><input type="number" step="0.05" data-path="spaceFrame.loads.wind.cpWindward"></div>
+            <div class="field"><label>Cp leeward</label><input type="number" step="0.05" data-path="spaceFrame.loads.wind.cpLeeward"></div>
+            <div class="field"><label>Cp side/other</label><input type="number" step="0.05" data-path="spaceFrame.loads.wind.cpSide"></div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:16px;">Point &amp; Line Loads</h3>
+        <p class="hint">Select one or more top nodes in the 3D view, then add a point load; select a member, then add a line load.</p>
+        <div class="btn-row"><button class="btn small" id="btn-sf-add-point-load">Add Point Load on Selected Node(s)</button><button class="btn small" id="btn-sf-add-line-load">Add Line Load on Selected Member</button></div>
+        <div id="sf-pointloads-table" class="mini-table"></div>
+      </section>
+
+      <!-- SF 10. 3D EDIT -->
+      <section class="panel" data-panel="sf-edit">
+        <h2>3D Edit — Move &amp; Adjust Shape</h2>
+        <p class="hint">Turn on <b>Edit Surface</b> in the viewer toolbar above the 3D view, then click a control point to select it (shift-click for more, or use Box Select) and drag. Everything below acts on the current selection.</p>
+        <div class="btn-row">
+          <span class="badge" id="sf-selection-summary">0 selected</span>
+        </div>
+
+        <h3>Selected Point (single selection)</h3>
+        <div class="field-row">
+          <div class="field"><label>X, m</label><input type="number" step="0.05" id="sf-sel-x"></div>
+          <div class="field"><label>Y (elevation), m</label><input type="number" step="0.05" id="sf-sel-y"></div>
+          <div class="field"><label>Z, m</label><input type="number" step="0.05" id="sf-sel-z"></div>
+        </div>
+        <div class="btn-row"><button class="btn small" id="btn-sf-apply-xyz">Apply Coordinates</button></div>
+
+        <h3>Move Selected</h3>
+        <div class="field-row">
+          <div class="field"><label>Move X, m</label><input type="number" step="0.1" id="sf-move-x" value="0"></div>
+          <div class="field"><label>Move Y, m</label><input type="number" step="0.1" id="sf-move-y" value="0"></div>
+          <div class="field"><label>Move Z, m</label><input type="number" step="0.1" id="sf-move-z" value="0"></div>
+        </div>
+        <div class="btn-row"><button class="btn small primary" id="btn-sf-apply-move">Apply Move</button></div>
+
+        <h3>Rotate / Scale Selected</h3>
+        <div class="field-row">
+          <div class="field"><label>Rotate about Y, degrees</label><input type="number" step="1" id="sf-rotate-deg" value="0"></div>
+          <div class="field"><label>Scale factor (elevation only)</label><input type="number" step="0.05" id="sf-scale-factor" value="1"></div>
+        </div>
+        <div class="btn-row"><button class="btn small" id="btn-sf-apply-rotate">Apply Rotate</button><button class="btn small" id="btn-sf-apply-scale">Apply Scale</button></div>
+
+        <h3>Deformation Falloff <span class="hint" style="display:inline;padding:2px 6px;">(how a move spreads to nearby unselected points)</span></h3>
+        <div class="field-row">
+          <div class="field"><label>Mode</label>
+            <select data-path="spaceFrame.falloff.mode"><option value="linear">Linear</option><option value="smooth">Smooth (curved)</option><option value="rigid">Rigid (no spread)</option></select>
+          </div>
+          <div class="field"><label>Radius, m (0 = off)</label><input type="number" step="0.5" min="0" data-path="spaceFrame.falloff.radius"></div>
+        </div>
+
+        <h3>Shape Tools</h3>
+        <div class="btn-row">
+          <button class="btn small" id="btn-sf-smooth">Smooth Shape</button>
+          <button class="btn small" id="btn-sf-flatten">Flatten Selected</button>
+          <button class="btn small" id="btn-sf-reset-shape">Reset Shape</button>
+          <button class="btn small" id="btn-sf-mirror-x">Mirror X</button>
+          <button class="btn small" id="btn-sf-mirror-y">Mirror Z</button>
+          <button class="btn small" id="btn-sf-copy-shape">Copy Shape</button>
+          <button class="btn small" id="btn-sf-paste-shape">Paste Shape</button>
+        </div>
+
+        <h3>Symmetry</h3>
+        <div class="radio-row">
+          <label><input type="radio" name="sfSymmetry" data-path="spaceFrame.symmetry" data-value="none"> None</label>
+          <label><input type="radio" name="sfSymmetry" data-path="spaceFrame.symmetry" data-value="x"> Symmetric X</label>
+          <label><input type="radio" name="sfSymmetry" data-path="spaceFrame.symmetry" data-value="y"> Symmetric Z</label>
+          <label><input type="radio" name="sfSymmetry" data-path="spaceFrame.symmetry" data-value="xy"> Symmetric X+Z</label>
+        </div>
+
+        <h3>Edge Control</h3>
+        <div class="btn-row">
+          <button class="btn small" id="btn-sf-select-edges">Select All Edge Points</button>
+          <button class="btn small" id="btn-sf-select-corners">Select Corner Points</button>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Raise/lower selected edge by, m</label><input type="number" step="0.1" id="sf-edge-delta" value="0.5"></div>
+        </div>
+        <div class="btn-row"><button class="btn small" id="btn-sf-apply-edge-delta">Apply to Selected Edge Points</button></div>
+
+        <h3>History &amp; Preview</h3>
+        <div class="btn-row">
+          <button class="btn small" id="btn-sf-undo">↶ Undo</button>
+          <button class="btn small" id="btn-sf-redo">↷ Redo</button>
+        </div>
+        <label class="checkline" style="margin-top:8px;"><input type="checkbox" data-path="spaceFrame.ui.simplifiedPreview"> Simplified Preview (thin lines instead of solid members — faster on large models)</label>
+      </section>
+
+      <!-- SF 11. VALIDATE -->
+      <section class="panel" data-panel="sf-validate">
+        <h2>Model Validation</h2>
+        <p class="hint">Runs automatically every time the model regenerates (spec item 22). Results also appear in the Engineering Checks drawer at the bottom of the screen.</p>
+        <div id="sf-validation-summary"></div>
+      </section>
+
+      <!-- SF 12. STAAD GENERATOR -->
+      <section class="panel" data-panel="sf-staadgen">
+        <h2>STAAD.Pro Generator</h2>
+        <p class="hint">Builds JOINT COORDINATES / MEMBER INCIDENCES / MEMBER PROPERTY / CONSTANTS / SUPPORTS / LOAD / LOAD COMBINATION directly from the generated node and member geometry above (spec item 23) — not a simplified visual-only export.</p>
+        <div class="btn-row">
+          <button class="btn small primary" id="btn-sf-download-std">Download .STD</button>
+          <button class="btn small" id="btn-sf-copy-staad">Copy STAAD Commands</button>
+          <button class="btn small" id="btn-sf-export-nodes-csv">Node CSV</button>
+          <button class="btn small" id="btn-sf-export-members-csv">Member CSV</button>
+        </div>
+        <p class="hint">Full preview is in the STAAD Command Preview drawer at the bottom of the screen.</p>
+      </section>
+
+      <!-- SF 13. REPORT -->
+      <section class="panel" data-panel="sf-report">
+        <h2>Space Frame Report</h2>
+        <div class="btn-row">
+          <button class="btn small" id="btn-sf-export-txt">Export TXT</button>
+          <button class="btn small" id="btn-sf-export-nodes-csv-2">Nodes CSV</button>
+          <button class="btn small" id="btn-sf-export-members-csv-2">Members CSV</button>
+          <button class="btn small" id="btn-sf-export-pdf">Print / Save as PDF</button>
+        </div>
+        <div id="sf-report-view" class="report-view"></div>
+      </section>
+
     </aside>
 
     <main id="viewer-host">
@@ -643,15 +1064,24 @@ details.advanced summary{cursor:pointer;font-size:11.5px;font-weight:700;color:v
           <button class="btn tiny" data-view="top">Top</button>
           <button class="btn tiny" data-view="iso">Isometric</button>
         </div>
-        <div class="vt-group">
+        <div class="vt-group" id="vt-group-labels-windhide">
           <label class="checkline small"><input type="checkbox" id="toggle-labels"> Node/Member #</label>
-          <label class="small">Wind arrows:
+          <label class="small" id="peb-wind-arrow-label">Wind arrows:
             <select id="wind-arrow-select">
               <option value="">None</option>
               <option value="windPX">Wind +X</option>
               <option value="windNX">Wind −X</option>
               <option value="windPZ">Wind +Z</option>
               <option value="windNZ">Wind −Z</option>
+            </select>
+          </label>
+          <label class="small" id="sf-wind-arrow-label" style="display:none">Wind arrows:
+            <select id="sf-wind-arrow-select">
+              <option value="">None</option>
+              <option value="plusX">Wind +X</option>
+              <option value="minusX">Wind −X</option>
+              <option value="plusY">Wind +Y</option>
+              <option value="minusY">Wind −Y</option>
             </select>
           </label>
           <div class="dropdown" id="show-hide-dropdown">
@@ -668,6 +1098,40 @@ details.advanced summary{cursor:pointer;font-size:11.5px;font-weight:700;color:v
               <label class="checkline small"><input type="checkbox" data-path="ui.visibleGroups.nodes"> Nodes</label>
             </div>
           </div>
+          <div class="dropdown" id="sf-show-hide-dropdown" style="display:none">
+            <button class="btn tiny" id="btn-sf-show-hide" type="button">Show/Hide ▾</button>
+            <div class="dropdown-panel" id="sf-show-hide-panel">
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.topChord"> Top Chord</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.bottomChord"> Bottom Chord</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.diagonal"> Diagonals</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.vertical"> Verticals</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.edge"> Edge Members</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.crossDiagonal"> Cross Diagonals</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.nodes"> Bottom/Mid Nodes</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.controlPoints"> Control Points (Top Nodes)</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.supports"> Supports</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.topSurface"> Top Surface (shaded)</label>
+              <label class="checkline small"><input type="checkbox" data-path="spaceFrame.ui.visibleGroups.bottomSurface"> Bottom Surface (shaded)</label>
+              <div class="btn-row" style="margin-top:6px;">
+                <button class="btn tiny" id="btn-sf-show-all">Show All</button>
+                <button class="btn tiny" id="btn-sf-hide-all">Hide All</button>
+                <button class="btn tiny" id="btn-sf-isolate-selected">Isolate Selected</button>
+                <button class="btn tiny" id="btn-sf-hide-selected">Hide Selected</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="vt-group" id="vt-group-sf-edit" style="display:none">
+          <button class="btn tiny primary" id="btn-sf-edit-toggle" type="button" title="Toggle control-point editing on the 3D view">✏ Edit Surface: Off</button>
+          <button class="btn tiny primary" id="btn-sf-tool-select" data-tool="select" title="Click / shift-click to select control points, members or nodes">Select</button>
+          <button class="btn tiny" id="btn-sf-tool-box" data-tool="box" title="Drag a box to select multiple control points">▭ Box Select</button>
+          <label class="small">Drag axis:
+            <select id="sf-drag-axis-select">
+              <option value="vertical">Vertical (Y)</option>
+              <option value="horizontal">Horizontal (X/Z)</option>
+              <option value="free">Free (screen plane)</option>
+            </select>
+          </label>
         </div>
       </div>
       <div id="viewer-canvas-container"></div>
@@ -950,6 +1414,13 @@ const AppState = (function () {
     return {
       schemaVersion: SCHEMA_VERSION,
 
+      // 'peb' (original PEB/Truss workflow, unchanged) | 'spaceFrame' (new).
+      // Everything under geometry/customTruss/bracing/etc. below is the
+      // ORIGINAL PEB data model, untouched — the Space Frame system has its
+      // own parallel `spaceFrame` block further down so neither system can
+      // corrupt the other's data, and a saved project safely carries both.
+      structuralSystem: 'peb',
+
       project: {
         name: 'New PEB Shed Project',
         location: '',
@@ -1108,6 +1579,108 @@ const AppState = (function () {
       loadCasesConfig: { customNames: {} },
       combinationsConfig: { customCombos: null, signature: null, reviewed: false },
 
+      // ================================================================
+      // SPACE FRAME — parallel data model (spec item 28). Nothing here is
+      // read by the PEB pipeline above, and nothing above is read by the
+      // Space Frame pipeline (SpaceFrame.* / SpaceFrameStaad.* /
+      // SpaceFrameReport.* / SpaceFrameValidation.*) — the two systems
+      // share only Utils, SectionsData, the [data-path] binding engine,
+      // Storage (save/open), and the Viewer's underlying THREE scene.
+      // ================================================================
+      spaceFrame: {
+        type: 'gable', // flat|gable|singleSlope|barrel|dome|pyramid|wave|saddle|freeform — starting template only, always editable after (spec item 2)
+
+        length: 24, width: 15,             // m — independent of the PEB geometry tab
+        divX: 8, divY: 6,                  // control-point / node grid divisions
+        gridSpacingMode: 'divisions',      // 'divisions' | 'spacing' (mirrors the existing purlin Number/Target-spacing pattern)
+        targetSpacingX: 3, targetSpacingY: 2.5, // m — used when gridSpacingMode = 'spacing'
+
+        // Shape-specific parameters — a superset; only the fields relevant
+        // to `type` are shown/used, the rest are simply carried along so
+        // switching shape types and back doesn't lose earlier tuning.
+        surface: {
+          eave: 0, ridge: 3, ridgePos: 0.5,                 // gable, singleSlope
+          rise: 2.5, direction: 'Z',                        // barrel (arch axis) / wave (propagation axis) / saddle ('A'|'B' diagonal)
+          centerX: 0.5, centerY: 0.5,                       // dome
+          waveHeight: 1.0, waveCount: 2, wavePhase: 0,      // wave
+          cornerRise: 1.2, centerDepression: 0.6, curvature: 1 // saddle / hypar
+        },
+
+        // Populated by SpaceFrame.regenerateSpaceFrame(): [{id,i,j,x,y,z}]
+        // — the SOURCE OF TRUTH for the whole surface (spec item 3). Every
+        // top-layer node IS a control point; dragging one and regenerating
+        // is what deforms the whole frame (spec items 4 & 26).
+        controlPoints: [],
+
+        layers: 'double',                   // 'single' | 'double' | 'triple'
+        depth: { mode: 'auto', value: 1.2 }, // 'auto' | 'constant' (constant covers the spec's "Constant"/"Custom" together — a single user-entered value)
+
+        // square | diagonalGrid | triangular | offsetPyramid (= Square-on-
+        // Square, the classic offset-pyramid double-layer pattern) fully
+        // implemented; hexagonal/squareOnDiagonal/triOnTri/custom fall back
+        // to the nearest implemented pattern for now (each option below is
+        // labelled honestly in the UI itself — see wireSpaceFrameUI()).
+        gridPattern: 'offsetPyramid',
+
+        // memberId(number) -> category key. Lets specific members be
+        // reassigned to a different category (and therefore a different
+        // section/release/visibility) without changing the grid pattern
+        // that generated them (spec item 11). Survives regeneration --
+        // see applyCategoryOverrides() in the SpaceFrame module.
+        categoryOverrides: {},
+
+        members: {
+          topChord: true, bottomChord: true, diagonal: true, vertical: false,
+          edge: true, crossDiagonal: false,
+          diagonalPattern: 'normal',    // normal|alternate|cross|single — only meaningful for single-layer/aligned patterns
+          verticalPattern: 'everyGrid'  // everyGrid|alternate
+        },
+
+        sections: {
+          topChord: { kind: 'CHS', designation: null, custom: { Do: 114.3, t: 4.5 } },
+          bottomChord: { kind: 'CHS', designation: null, custom: { Do: 88.9, t: 4.0 } },
+          diagonal: { kind: 'CHS', designation: null, custom: { Do: 60.3, t: 3.6 } },
+          vertical: { kind: 'CHS', designation: null, custom: { Do: 60.3, t: 3.6 } },
+          edge: { kind: 'CHS', designation: null, custom: { Do: 114.3, t: 4.5 } }
+        },
+        releases: {
+          topChord: 'pinned', bottomChord: 'pinned', diagonal: 'pinned', vertical: 'pinned', edge: 'pinned',
+          overrides: {} // memberId(string) -> {start:{mx,my,mz}, end:{mx,my,mz}} booleans
+        },
+
+        supports: {
+          type: 'pinned',  // fixed|pinned|roller|custom
+          nodeIds: []       // explicit node ids carrying a support (assigned via 3D selection + Corner/Edge/All helpers)
+        },
+
+        loads: {
+          selfWeight: true,
+          deadLoadKNm2: 0.15, liveLoadKNm2: 0.75, solarKNm2: 0, tempDeltaC: 0,
+          wind: {
+            enabled: true, Vb: 44, k1: 1, k2: 1, k3: 1, k4: 1,
+            directions: { plusX: true, minusX: false, plusY: false, minusY: false },
+            cpWindward: 0.7, cpLeeward: -0.3, cpSide: -0.5
+          },
+          pointLoads: [], // {nodeId, fx, fy, fz} kN
+          lineLoads: []   // {memberId, w} kN/m, UDL in -Y on a selected member
+        },
+
+        symmetry: 'none',                     // none|x|y|xy — mirrors control-point edits (spec item 20)
+        falloff: { mode: 'linear', radius: 0 }, // proportional-edit falloff for group moves (spec item 4's "smooth/linear/curved interpolation")
+        morph: { targetType: 'dome', t: 0 },   // Shape Morph slider state (spec item 18)
+
+        ui: {
+          activeStep: 'sf-type',
+          dragAxis: 'vertical',      // vertical|horizontal|free
+          editTool: 'select',        // select|box
+          simplifiedPreview: false,
+          visibleGroups: {
+            topChord: true, bottomChord: true, diagonal: true, vertical: true, edge: true, crossDiagonal: true,
+            nodes: true, controlPoints: true, supports: true, loads: true, topSurface: false, bottomSurface: false
+          }
+        }
+      },
+
       // ---- Derived / computed — populated by the recalculation pipeline.
       // Not authored by the user directly; safe to regenerate at any time.
       derived: {
@@ -1115,8 +1688,16 @@ const AppState = (function () {
         loadCases: null, combinations: null, validation: null, staadText: ''
       },
 
+      // Space Frame's own derived/computed bucket — same idea, kept
+      // separate so switching modes never clobbers the other system's
+      // last-computed results while its panel is offscreen.
+      sfDerived: {
+        model: null, validation: null, staadText: '', reportSummary: null
+      },
+
       ui: {
         activePanel: 'project',
+        activeSFPanel: 'sf-type',   // remembers the last-open Space Frame wizard step independently of the PEB nav
         selectedMemberId: null, selectedNodeId: null,
         showLabels: false,
         activeWindCaseForArrows: 'windPZ',
@@ -2057,27 +2638,52 @@ const Wind = (function () {
   // place — zone name / "applies to" assignment is left exactly as
   // the user set it. Always returns the ratios (even with cpeAuto
   // off) so the UI hint can show what auto-mode would use.
+  //
+  // IMPORTANT: l and w (Table 4/5's "greater"/"lesser" horizontal
+  // dimension) are properties of the PLAN only — IS 875 (Part 3)
+  // 3.1.2/3.1.3 is explicit that length/width are plan dimensions,
+  // independent of wind direction (it's "breadth"/"depth" that are
+  // wind-relative, and this tool does not need those directly).
+  // Wind angle theta=0 deg is the code's own convention for "wind
+  // blows along l" — normally that IS this tool's "along length"
+  // (cpe0), because sheds normally have length >= width, i.e.
+  // l=length. But if a building is entered wider than it is long,
+  // l=width instead, and "wind along length" is then physically the
+  // code's theta=90 deg case, not theta=0 deg — so which table (dir0
+  // vs dir90, EF/GH vs EG/FH) belongs to this tool's cpe0 vs cpe90
+  // has to swap accordingly, or the auto-filled numbers would be
+  // transposed. That swap is the "lengthIsLonger" check below.
   function autoCalculateCpe(state, roofGeom) {
     const g = state.geometry;
     const h = Math.max(Number(g.eaveHeight) || 0, 0.001);
-    const dimA = Math.max(Number(g.length) || 0, 0.001);
-    const dimB = Math.max(Number(g.width) || 0, 0.001);
-    const w = Math.min(dimA, dimB);
-    const l = Math.max(dimA, dimB);
+    const length = Math.max(Number(g.length) || 0, 0.001);
+    const width = Math.max(Number(g.width) || 0, 0.001);
+    const w = Math.min(length, width);
+    const l = Math.max(length, width);
     const hw = h / w, lw = l / w;
+    const lengthIsLonger = length >= width;
 
-    const wall = wallCpeAuto(hw, lw);
-    const roof = roofCpeAuto(hw, roofGeom.roofAngleDeg);
+    const wallTable = wallCpeAuto(hw, lw);
+    const roofTable = roofCpeAuto(hw, roofGeom.roofAngleDeg);
+    // Re-label from the code's (theta=0, theta=90) onto this tool's
+    // (along-length, across-width) — identical when length>=width,
+    // swapped otherwise.
+    const wall = lengthIsLonger
+      ? { alongLength: wallTable.dir0, acrossWidth: wallTable.dir90 }
+      : { alongLength: wallTable.dir90, acrossWidth: wallTable.dir0 };
+    const roof = lengthIsLonger
+      ? { alongLength: { near: roofTable.EF, far: roofTable.GH }, acrossWidth: { near: roofTable.EG, far: roofTable.FH } }
+      : { alongLength: { near: roofTable.EG, far: roofTable.FH }, acrossWidth: { near: roofTable.EF, far: roofTable.GH } };
 
     if (state.wind.cpeAuto) {
       const w0 = state.wind.cpe0, w90 = state.wind.cpe90;
-      w0.windwardWall = wall.dir0.windward; w0.leewardWall = wall.dir0.leeward; w0.sideWall = wall.dir0.side;
-      w90.windwardWall = wall.dir90.windward; w90.leewardWall = wall.dir90.leeward; w90.sideWall = wall.dir90.side;
-      (w0.zones || []).forEach(z => { z.value = z.appliesTo === 'leewardRoof' ? roof.GH : roof.EF; });
-      (w90.zones || []).forEach(z => { z.value = z.appliesTo === 'leewardRoof' ? roof.FH : roof.EG; });
+      w0.windwardWall = wall.alongLength.windward; w0.leewardWall = wall.alongLength.leeward; w0.sideWall = wall.alongLength.side;
+      w90.windwardWall = wall.acrossWidth.windward; w90.leewardWall = wall.acrossWidth.leeward; w90.sideWall = wall.acrossWidth.side;
+      (w0.zones || []).forEach(z => { z.value = z.appliesTo === 'leewardRoof' ? roof.alongLength.far : roof.alongLength.near; });
+      (w90.zones || []).forEach(z => { z.value = z.appliesTo === 'leewardRoof' ? roof.acrossWidth.far : roof.acrossWidth.near; });
     }
 
-    return { hw, lw, hwLabel: hwBandLabel(hw), lwLabel: lwBandLabel(lw), wall, roof };
+    return { hw, lw, hwLabel: hwBandLabel(hw), lwLabel: lwBandLabel(lw), lengthIsLonger, wall, roof };
   }
 
   function resolveCpi(state) {
@@ -3108,6 +3714,1008 @@ const Report = (function () {
 </script>
 <script>
 /* ============================================================
+   SPACEFRAME.JS
+
+   Core parametric Space Frame engine (spec item 28). Mirrors the
+   architecture of Geometry.js/Roof.js for the PEB system: this module
+   only ever computes and returns data — it never touches the DOM (that
+   is main.js's job) and never touches Viewer/Staad directly.
+
+   DATA FLOW (spec item 16 — real-time update):
+     user edits a [data-path="spaceFrame.*"] field or drags a control
+     point  →  main.js calls SpaceFrame.regenerateSpaceFrame(state)
+     →  returns a fresh sfModel {nodes, members, groups, controlPoints,
+        supports, loadCases, ...}  →  main.js hands it to
+        SpaceFrameValidation / SpaceFrameStaad / SpaceFrameReport /
+        Viewer.rebuildSpaceFrame.
+
+   CONTROL POINTS ARE THE TOP-LAYER NODES (spec item 3). Every standard
+   template (gable, dome, barrel...) is just a formula that sets the
+   initial Y of each control point on the SAME (divX+1) x (divY+1) grid
+   that Freeform starts flat on — so every generated shape is, from the
+   very first frame, already the general control-point-editable surface
+   (spec item 2's "every generated shape must remain editable").
+   ============================================================ */
+
+const SpaceFrame = (function () {
+  'use strict';
+
+  // ---------------------------------------------------------------
+  // 1. Surface formulas (spec item 5). Pure function of plan position
+  //    -- u,v are normalised 0..1 across length/width.
+  // ---------------------------------------------------------------
+  function shapeElevation(type, p, x, zPlan, length, width) {
+    p = p || {};
+    const u = length ? x / length : 0, v = width ? zPlan / width : 0;
+    const du = (u - 0.5) * 2, dv = (v - 0.5) * 2; // -1..1, corners at +-1,+-1
+    switch (type) {
+      case 'flat': return 0;
+      case 'gable': {
+        const eave = p.eave || 0, ridge = p.ridge !== undefined ? p.ridge : 1, rp = Utils.clamp(p.ridgePos !== undefined ? p.ridgePos : 0.5, 0.001, 0.999);
+        return v <= rp ? Utils.lerp(eave, ridge, v / rp) : Utils.lerp(ridge, eave, (v - rp) / (1 - rp));
+      }
+      case 'singleSlope':
+        return Utils.lerp(p.eave || 0, p.ridge !== undefined ? p.ridge : 1, v);
+      case 'barrel': {
+        const rise = p.rise !== undefined ? p.rise : 1, t = (p.direction === 'X') ? u : v;
+        return rise * Math.sin(Math.PI * Utils.clamp(t, 0, 1));
+      }
+      case 'dome': {
+        // Elliptical cap inscribed in the rectangle -- touches eave level
+        // along the WHOLE boundary (tangent at edge midpoints, clipped
+        // flat beyond the ellipse near the corners), peaks at centre.
+        const rise = p.rise !== undefined ? p.rise : 2;
+        const cx = (p.centerX !== undefined ? p.centerX : 0.5), cy = (p.centerY !== undefined ? p.centerY : 0.5);
+        const dxn = (u - cx) / 0.5, dyn = (v - cy) / 0.5;
+        const r = Utils.clamp(Math.sqrt(dxn * dxn + dyn * dyn), 0, 1);
+        return rise * Math.cos(r * Math.PI / 2);
+      }
+      case 'pyramid': {
+        const rise = p.rise !== undefined ? p.rise : 2;
+        const d = Utils.clamp(Math.max(Math.abs(du), Math.abs(dv)), 0, 1);
+        return rise * (1 - d);
+      }
+      case 'wave': {
+        const h = p.waveHeight !== undefined ? p.waveHeight : 1, n = p.waveCount || 2;
+        const dir = p.direction || 'X', phase = p.wavePhase || 0;
+        const t = (dir === 'X') ? u : v;
+        return h * Math.sin(2 * Math.PI * n * t + phase);
+      }
+      case 'saddle': {
+        // Classic hyperbolic paraboloid: two opposite corners rise, the
+        // other two fall, blending smoothly through the centreline --
+        // then biased down by centerDepression so the centre point sits
+        // below the corner average ("rise at corners" + "depression at
+        // centre", spec item 5).
+        const A = p.cornerRise !== undefined ? p.cornerRise : 1;
+        const dep = p.centerDepression !== undefined ? p.centerDepression : 0;
+        const curv = (p.curvature && p.curvature > 0) ? p.curvature : 1;
+        const sign = (p.direction === 'B') ? -1 : 1;
+        const prod = du * dv;
+        const shaped = Math.sign(prod) * Math.pow(Math.abs(prod), 1 / curv);
+        return sign * A * shaped - dep;
+      }
+      case 'freeform': return 0;
+      default: return 0;
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // 2. Grid + surface generation
+  // ---------------------------------------------------------------
+  function generateGrid(length, width, divX, divY) {
+    divX = Math.max(1, Math.round(divX)); divY = Math.max(1, Math.round(divY));
+    const points = [];
+    let id = 1;
+    for (let j = 0; j <= divY; j++) {
+      for (let i = 0; i <= divX; i++) {
+        points.push({ id: id++, i, j, x: length * i / divX, y: 0, z: width * j / divY, edge: (i === 0 || i === divX || j === 0 || j === divY), corner: ((i === 0 || i === divX) && (j === 0 || j === divY)) });
+      }
+    }
+    return { divX, divY, points };
+  }
+
+  // Recomputes control points FROM the shape formula (spec item 17's
+  // preset buttons, and the "Reset Shape" tool -- spec item 3). Any
+  // manual point edits made after the last call to this are discarded.
+  function generateSurface(state) {
+    const sf = state.spaceFrame;
+    const grid = generateGrid(sf.length, sf.width, sf.divX, sf.divY);
+    grid.points.forEach(pt => { pt.y = shapeElevation(sf.type, sf.surface, pt.x, pt.z, sf.length, sf.width); });
+    sf.controlPoints = grid.points;
+    return sf.controlPoints;
+  }
+
+  // Ensures controlPoints exist and match the current divX/divY grid
+  // size; regenerates from the formula if the grid was never built or
+  // its resolution changed (adding/removing points per spec item 3 --
+  // "Add/Delete control points" is implemented as a divisions change,
+  // see the honest scope note in the project README panel).
+  function ensureControlPoints(state) {
+    const sf = state.spaceFrame;
+    const expected = (sf.divX + 1) * (sf.divY + 1);
+    if (!Array.isArray(sf.controlPoints) || sf.controlPoints.length !== expected) {
+      generateSurface(state);
+    }
+    return sf.controlPoints;
+  }
+
+  function cpAt(sf, i, j) {
+    // controlPoints is stored row-major (j outer, i inner) by construction
+    const idx = j * (sf.divX + 1) + i;
+    return sf.controlPoints[idx];
+  }
+
+  // ---------------------------------------------------------------
+  // 3. Control point editing (spec items 3, 4, 19, 20)
+  // ---------------------------------------------------------------
+  function symmetryPartners(sf, pt) {
+    const out = [];
+    const mirrorI = sf.divX - pt.i, mirrorJ = sf.divY - pt.j;
+    const sym = sf.symmetry;
+    if (sym === 'x' || sym === 'xy') { const p = cpAt(sf, mirrorI, pt.j); if (p && p !== pt) out.push(p); }
+    if (sym === 'y' || sym === 'xy') { const p = cpAt(sf, pt.i, mirrorJ); if (p && p !== pt) out.push(p); }
+    if (sym === 'xy') { const p = cpAt(sf, mirrorI, mirrorJ); if (p && p !== pt) out.push(p); }
+    return out;
+  }
+
+  function falloffWeight(mode, tNorm) {
+    // tNorm: 0 at the moved point, 1 at the edge of the falloff radius
+    const t = Utils.clamp(tNorm, 0, 1);
+    if (mode === 'smooth') return 0.5 * (Math.cos(t * Math.PI) + 1); // cosine falloff, C1-continuous at both ends
+    if (mode === 'rigid') return t < 1 ? 1 : 0;                        // no falloff -- selection only
+    return 1 - t;                                                      // linear
+  }
+
+  // Moves one or more control points by (dx,dy,dz), optionally spreading
+  // a fraction of the move to nearby UNselected points (spec item 4's
+  // "Smooth transition / Linear / Curved interpolation", implemented as
+  // a proportional-edit falloff), and mirrors the move to symmetry
+  // partners when symmetry is enabled (spec item 20).
+  function deformSurface(state, selectedIds, delta, opts) {
+    const sf = state.spaceFrame;
+    opts = opts || {};
+    const mode = opts.mode || sf.falloff.mode || 'linear';
+    const radius = opts.radius !== undefined ? opts.radius : (sf.falloff.radius || 0);
+    const selectedSet = new Set(selectedIds);
+    const selectedPts = sf.controlPoints.filter(p => selectedSet.has(p.id));
+    if (!selectedPts.length) return;
+
+    function applyToPoint(pt, factor) {
+      pt.x += delta.dx * factor; pt.y += delta.dy * factor; pt.z += delta.dz * factor;
+      if (sf.symmetry !== 'none') {
+        symmetryPartners(sf, pt).forEach(partner => {
+          if (selectedSet.has(partner.id)) return; // already moving directly, avoid double-application
+          // mirror horizontal deltas across the mirrored axis, keep vertical delta as-is
+          const mdx = symmetryFlipsX(sf, pt) ? -delta.dx * factor : delta.dx * factor;
+          const mdz = symmetryFlipsZ(sf, pt) ? -delta.dz * factor : delta.dz * factor;
+          partner.x += mdx; partner.y += delta.dy * factor; partner.z += mdz;
+        });
+      }
+    }
+
+    selectedPts.forEach(pt => applyToPoint(pt, 1));
+
+    if (radius > 1e-6) {
+      const cellX = sf.length / sf.divX || 1, cellZ = sf.width / sf.divY || 1;
+      sf.controlPoints.forEach(pt => {
+        if (selectedSet.has(pt.id)) return;
+        let minD = Infinity;
+        selectedPts.forEach(sp => {
+          const dI = (pt.i - sp.i) * cellX, dJ = (pt.j - sp.j) * cellZ;
+          const d = Math.sqrt(dI * dI + dJ * dJ);
+          if (d < minD) minD = d;
+        });
+        if (minD <= radius) applyToPoint(pt, falloffWeight(mode, minD / radius));
+      });
+    }
+  }
+  function symmetryFlipsX(sf, pt) { return sf.symmetry === 'x' || sf.symmetry === 'xy'; }
+  function symmetryFlipsZ(sf, pt) { return sf.symmetry === 'y' || sf.symmetry === 'xy'; }
+
+  function updateControlPoint(state, pointId, xyz) {
+    const sf = state.spaceFrame;
+    const pt = sf.controlPoints.find(p => p.id === pointId);
+    if (!pt) return;
+    const delta = { dx: (xyz.x !== undefined ? xyz.x : pt.x) - pt.x, dy: (xyz.y !== undefined ? xyz.y : pt.y) - pt.y, dz: (xyz.z !== undefined ? xyz.z : pt.z) - pt.z };
+    deformSurface(state, [pointId], delta, {});
+  }
+
+  function smoothShape(state, ids) {
+    const sf = state.spaceFrame;
+    const targetSet = ids && ids.length ? new Set(ids) : null;
+    const ys = sf.controlPoints.map(p => p.y);
+    sf.controlPoints.forEach((p, idx) => {
+      if (targetSet && !targetSet.has(p.id)) return;
+      const neighbors = [];
+      [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([di, dj]) => {
+        const n = cpAt(sf, p.i + di, p.j + dj);
+        if (n) neighbors.push(ys[sf.controlPoints.indexOf(n)]);
+      });
+      if (neighbors.length) p.y = (p.y + neighbors.reduce((s, v) => s + v, 0) / neighbors.length * 2) / 3; // gentle 1/3-step toward neighbour average
+    });
+  }
+
+  function flattenSelection(state, ids) {
+    const sf = state.spaceFrame;
+    const pts = sf.controlPoints.filter(p => ids.includes(p.id));
+    if (!pts.length) return;
+    const avgY = pts.reduce((s, p) => s + p.y, 0) / pts.length;
+    pts.forEach(p => { p.y = avgY; });
+  }
+
+  function mirrorControlPointsInPlace(state, axis) {
+    const sf = state.spaceFrame;
+    const ys = sf.controlPoints.map(p => p.y);
+    sf.controlPoints.forEach((p, idx) => {
+      const srcI = axis === 'x' ? sf.divX - p.i : p.i;
+      const srcJ = axis === 'y' ? sf.divY - p.j : p.j;
+      const src = cpAt(sf, srcI, srcJ);
+      if (src) p.y = ys[sf.controlPoints.indexOf(src)];
+    });
+  }
+
+  let _clipboard = null;
+  function copyShape(state) { _clipboard = { divX: state.spaceFrame.divX, divY: state.spaceFrame.divY, ys: state.spaceFrame.controlPoints.map(p => p.y) }; return !!_clipboard; }
+  function pasteShape(state) {
+    const sf = state.spaceFrame;
+    if (!_clipboard || _clipboard.divX !== sf.divX || _clipboard.divY !== sf.divY) return false;
+    sf.controlPoints.forEach((p, idx) => { p.y = _clipboard.ys[idx]; });
+    return true;
+  }
+  function hasClipboard() { return !!_clipboard; }
+
+  // Shape Morph (spec item 18): blend the CURRENT control-point heights
+  // toward a freshly-computed target shape's heights on the same grid.
+  function computeMorphTargetYs(state, targetType) {
+    const sf = state.spaceFrame;
+    const grid = generateGrid(sf.length, sf.width, sf.divX, sf.divY);
+    return grid.points.map(pt => shapeElevation(targetType, sf.surface, pt.x, pt.z, sf.length, sf.width));
+  }
+  function applyMorph(state, targetType, t) {
+    const sf = state.spaceFrame;
+    if (!sf._morphBaseYs || sf._morphBaseType !== targetType) {
+      sf._morphBaseYs = sf.controlPoints.map(p => p.y);
+      sf._morphBaseType = targetType;
+    }
+    const targetYs = computeMorphTargetYs(state, targetType);
+    sf.controlPoints.forEach((p, idx) => { p.y = Utils.lerp(sf._morphBaseYs[idx], targetYs[idx], Utils.clamp(t, 0, 1)); });
+  }
+  function commitMorph(state) { state.spaceFrame._morphBaseYs = null; state.spaceFrame._morphBaseType = null; }
+
+  // ---------------------------------------------------------------
+  // 4. Layers + members (spec items 6, 7, 8)
+  // ---------------------------------------------------------------
+  const OFFSET_PATTERNS = { offsetPyramid: true, squareOnDiagonal: true }; // squareOnDiagonal falls back to offsetPyramid for now
+  const ALIGNED_FALLBACK = { hexagonal: 'triangular', triOnTri: 'triangular', custom: 'square', squareOnDiagonal: 'offsetPyramid' };
+  function resolvePattern(gridPattern) { return ALIGNED_FALLBACK[gridPattern] || gridPattern; }
+
+  function autoDepth(sf) { return Math.max(0.4, Math.min(sf.length, sf.width) / 20); }
+
+  function generateLayers(state) {
+    const sf = state.spaceFrame;
+    const divX = sf.divX, divY = sf.divY;
+    const pattern = resolvePattern(sf.gridPattern);
+    const depth = sf.depth.mode === 'auto' ? autoDepth(sf) : Math.max(0.05, Number(sf.depth.value) || 0.05);
+    const nLayers = sf.layers === 'triple' ? 3 : sf.layers === 'double' ? 2 : 1;
+
+    const nodes = []; let nextId = 1;
+    const nodeIndex = new Map();
+    function addNode(x, y, z, tag) {
+      const k = `${x.toFixed(4)}|${y.toFixed(4)}|${z.toFixed(4)}`;
+      if (nodeIndex.has(k)) return nodeIndex.get(k);
+      const id = nextId++; nodes.push({ id, x, y, z, tag }); nodeIndex.set(k, id); return id;
+    }
+
+    // top layer = control points, in order
+    const topId = [];
+    for (let j = 0; j <= divY; j++) { topId[j] = []; for (let i = 0; i <= divX; i++) { const p = cpAt(sf, i, j); topId[j][i] = addNode(p.x, p.y, p.z, 'top'); } }
+
+    let bottomId = null, midId = null;
+    if (nLayers >= 2) {
+      const bottomDepth = nLayers === 3 ? depth : depth;
+      const midDepth = depth / 2;
+      if (OFFSET_PATTERNS[pattern] || pattern === 'offsetPyramid') {
+        bottomId = [];
+        for (let j = 0; j < divY; j++) {
+          bottomId[j] = [];
+          for (let i = 0; i < divX; i++) {
+            const p00 = cpAt(sf, i, j), p10 = cpAt(sf, i + 1, j), p01 = cpAt(sf, i, j + 1), p11 = cpAt(sf, i + 1, j + 1);
+            const cx = (p00.x + p10.x + p01.x + p11.x) / 4, cz = (p00.z + p10.z + p01.z + p11.z) / 4, cy = (p00.y + p10.y + p01.y + p11.y) / 4;
+            bottomId[j][i] = addNode(cx, cy - bottomDepth, cz, 'bottom');
+          }
+        }
+      } else {
+        bottomId = [];
+        for (let j = 0; j <= divY; j++) { bottomId[j] = []; for (let i = 0; i <= divX; i++) { const p = cpAt(sf, i, j); bottomId[j][i] = addNode(p.x, p.y - bottomDepth, p.z, 'bottom'); } }
+      }
+      if (nLayers === 3) {
+        // Mid layer always aligned with top (simple, predictable split --
+        // variable per-point mid-depth control is a documented next step).
+        midId = [];
+        for (let j = 0; j <= divY; j++) { midId[j] = []; for (let i = 0; i <= divX; i++) { const p = cpAt(sf, i, j); midId[j][i] = addNode(p.x, p.y - midDepth, p.z, 'mid'); } }
+      }
+    }
+
+    return { nodes, topId, bottomId, midId, divX, divY, pattern, depth, nLayers };
+  }
+
+  function generateMembers(state, layerInfo) {
+    const sf = state.spaceFrame;
+    const { topId, bottomId, midId, divX, divY, pattern, nLayers } = layerInfo;
+    const nodesById = {}; layerInfo.nodes.forEach(n => { nodesById[n.id] = n; });
+    const members = []; let nextId = 1;
+    const seen = new Set();
+    function len(a, b) { const na = nodesById[a], nb = nodesById[b]; return Math.sqrt((na.x - nb.x) ** 2 + (na.y - nb.y) ** 2 + (na.z - nb.z) ** 2); }
+    function addMember(a, b, group) {
+      if (!a || !b || a === b) return null;
+      const k = a < b ? `${a}-${b}` : `${b}-${a}`;
+      if (seen.has(k)) return null;
+      seen.add(k);
+      const id = nextId++;
+      members.push({ id, ni: a, nj: b, group, length: len(a, b) });
+      return id;
+    }
+    const M = sf.members;
+
+    // Top chord (interior grid lines) + Edge/perimeter (boundary grid
+    // lines) are generated as MUTUALLY EXCLUSIVE categories so each can be
+    // shown/hidden, sectioned and released independently (spec item 8) --
+    // a boundary segment becomes an "edge" member when that toggle is on,
+    // otherwise it's an ordinary "topChord" member like any interior line.
+    function isBoundarySegment(j1, i1, j2, i2) {
+      if (j1 === j2 && (j1 === 0 || j1 === divY)) return true; // horizontal run along the top/bottom boundary row
+      if (i1 === i2 && (i1 === 0 || i1 === divX)) return true; // vertical run along the left/right boundary column
+      return false;
+    }
+    for (let j = 0; j <= divY; j++) for (let i = 0; i < divX; i++) {
+      if (M.edge && isBoundarySegment(j, i, j, i + 1)) addMember(topId[j][i], topId[j][i + 1], 'edge');
+      else if (M.topChord) addMember(topId[j][i], topId[j][i + 1], 'topChord');
+    }
+    for (let i = 0; i <= divX; i++) for (let j = 0; j < divY; j++) {
+      if (M.edge && isBoundarySegment(j, i, j + 1, i)) addMember(topId[j][i], topId[j + 1][i], 'edge');
+      else if (M.topChord) addMember(topId[j][i], topId[j + 1][i], 'topChord');
+    }
+    // Cross diagonal (in-plane X-bracing on the top surface)
+    if (M.crossDiagonal) {
+      for (let j = 0; j < divY; j++) for (let i = 0; i < divX; i++) { addMember(topId[j][i], topId[j + 1][i + 1], 'crossDiagonal'); addMember(topId[j][i + 1], topId[j + 1][i], 'crossDiagonal'); }
+    }
+
+    if (nLayers === 1) {
+      // Single layer: "diagonal" means in-plane triangulating bracing of
+      // the top surface itself (a braced gridshell / lattice shell).
+      if (M.diagonal) {
+        for (let j = 0; j < divY; j++) for (let i = 0; i < divX; i++) {
+          const dp = M.diagonalPattern;
+          if (dp === 'cross') { addMember(topId[j][i], topId[j + 1][i + 1], 'diagonal'); addMember(topId[j][i + 1], topId[j + 1][i], 'diagonal'); }
+          else if (dp === 'alternate') { if ((i + j) % 2 === 0) addMember(topId[j][i], topId[j + 1][i + 1], 'diagonal'); else addMember(topId[j][i + 1], topId[j + 1][i], 'diagonal'); }
+          else addMember(topId[j][i], topId[j + 1][i + 1], 'diagonal'); // 'normal' / 'single'
+        }
+      }
+      applyCategoryOverrides(sf, members);
+      return { members, groups: groupCounts(members) };
+    }
+
+    // ---- Double / triple layer webs ----
+    function websBetween(upId, dnId, offsetPattern) {
+      if (offsetPattern) {
+        if (!M.diagonal) return;
+        for (let j = 0; j < divY; j++) for (let i = 0; i < divX; i++) {
+          const b = dnId[j][i];
+          addMember(b, upId[j][i], 'diagonal'); addMember(b, upId[j][i + 1], 'diagonal');
+          addMember(b, upId[j + 1][i], 'diagonal'); addMember(b, upId[j + 1][i + 1], 'diagonal');
+        }
+      } else {
+        if (M.vertical) {
+          for (let j = 0; j <= divY; j++) for (let i = 0; i <= divX; i++) {
+            if (M.verticalPattern === 'alternate' && (i + j) % 2 !== 0) continue;
+            addMember(upId[j][i], dnId[j][i], 'vertical');
+          }
+        }
+        if (M.diagonal) {
+          for (let j = 0; j < divY; j++) for (let i = 0; i < divX; i++) {
+            const dp = M.diagonalPattern;
+            if (dp === 'cross') { addMember(dnId[j][i], upId[j + 1][i + 1], 'diagonal'); addMember(dnId[j][i + 1], upId[j + 1][i], 'diagonal'); }
+            else if (dp === 'alternate' || pattern === 'triangular') { if ((i + j) % 2 === 0) addMember(dnId[j][i], upId[j + 1][i + 1], 'diagonal'); else addMember(dnId[j][i + 1], upId[j + 1][i], 'diagonal'); }
+            else addMember(dnId[j][i], upId[j + 1][i + 1], 'diagonal'); // 'normal' / 'single'
+          }
+        }
+      }
+    }
+
+    const isOffset = pattern === 'offsetPyramid';
+    if (nLayers === 2) {
+      if (M.bottomChord) {
+        if (isOffset) {
+          for (let j = 0; j < divY; j++) for (let i = 0; i < divX - 1; i++) addMember(bottomId[j][i], bottomId[j][i + 1], 'bottomChord');
+          for (let i = 0; i < divX; i++) for (let j = 0; j < divY - 1; j++) addMember(bottomId[j][i], bottomId[j + 1][i], 'bottomChord');
+        } else {
+          for (let j = 0; j <= divY; j++) for (let i = 0; i < divX; i++) addMember(bottomId[j][i], bottomId[j][i + 1], 'bottomChord');
+          for (let i = 0; i <= divX; i++) for (let j = 0; j < divY; j++) addMember(bottomId[j][i], bottomId[j + 1][i], 'bottomChord');
+        }
+      }
+      websBetween(topId, bottomId, isOffset);
+    } else if (nLayers === 3) {
+      // top<->mid always aligned (verticals+diagonals); mid<->bottom
+      // aligned too, unless offset pattern is selected in which case both
+      // webs use the pyramidal connection against the (still aligned) mid
+      // layer -- bottom stays offset only relative to mid, keeping the
+      // node count sane. This is a deliberately simple, documented rule.
+      if (M.bottomChord) {
+        for (let j = 0; j <= divY; j++) for (let i = 0; i < divX; i++) addMember(midId[j][i], midId[j][i + 1], 'bottomChord');
+        for (let i = 0; i <= divX; i++) for (let j = 0; j < divY; j++) addMember(midId[j][i], midId[j + 1][i], 'bottomChord');
+      }
+      websBetween(topId, midId, false);
+      if (isOffset) {
+        // bottom is a genuine offset pyramid grid under the mid layer
+        // (already built that way by generateLayers() above)
+        websBetween(midId, bottomId, true);
+        if (M.bottomChord) {
+          for (let j = 0; j < divY; j++) for (let i = 0; i < divX - 1; i++) addMember(bottomId[j][i], bottomId[j][i + 1], 'bottomChord');
+          for (let i = 0; i < divX; i++) for (let j = 0; j < divY - 1; j++) addMember(bottomId[j][i], bottomId[j + 1][i], 'bottomChord');
+        }
+      } else {
+        websBetween(midId, bottomId, false);
+        if (M.bottomChord) {
+          for (let j = 0; j <= divY; j++) for (let i = 0; i < divX; i++) addMember(bottomId[j][i], bottomId[j][i + 1], 'bottomChord');
+          for (let i = 0; i <= divX; i++) for (let j = 0; j < divY; j++) addMember(bottomId[j][i], bottomId[j + 1][i], 'bottomChord');
+        }
+      }
+    }
+
+    applyCategoryOverrides(sf, members);
+    return { members, groups: groupCounts(members) };
+  }
+
+  // Lets a user reassign specific members to a different category (spec
+  // item 11's "select a group of members and change their section
+  // together" -- reassigning category is how that's expressed here,
+  // since section is assigned per-category). Stored persistently in
+  // spaceFrame.categoryOverrides (memberId -> category) so it SURVIVES
+  // the next regenerate -- member ids are stable across pure
+  // control-point edits because id assignment only depends on grid
+  // topology/iteration order, never on point positions. An override
+  // whose member id no longer exists after a topology change (divisions/
+  // pattern/layers) is simply ignored, not an error.
+  function applyCategoryOverrides(sf, members) {
+    const ov = sf.categoryOverrides;
+    if (!ov || !Object.keys(ov).length) return;
+    members.forEach(m => { if (ov[m.id]) m.group = ov[m.id]; });
+  }
+
+  function groupCounts(members) {
+    const g = { topChord: [], bottomChord: [], diagonal: [], vertical: [], edge: [], crossDiagonal: [] };
+    members.forEach(m => { (g[m.group] = g[m.group] || []).push(m.id); });
+    return g;
+  }
+
+  // ---------------------------------------------------------------
+  // 5. Tributary area + loads (spec items 14, 15)
+  // ---------------------------------------------------------------
+  function tributaryWidths1D(positions) {
+    const n = positions.length;
+    if (n === 0) return [];
+    if (n === 1) return [0];
+    return positions.map((p, i) => { const l = i > 0 ? (p - positions[i - 1]) : 0, r = i < n - 1 ? (positions[i + 1] - p) : 0; return l / 2 + r / 2; });
+  }
+
+  function computeTributaryAreas(sf) {
+    const xs = []; for (let i = 0; i <= sf.divX; i++) xs.push(cpAt(sf, i, 0).x);
+    const zs = []; for (let j = 0; j <= sf.divY; j++) zs.push(cpAt(sf, 0, j).z);
+    const wx = tributaryWidths1D(xs), wz = tributaryWidths1D(zs);
+    const areaByIJ = {};
+    for (let j = 0; j <= sf.divY; j++) for (let i = 0; i <= sf.divX; i++) areaByIJ[`${i}|${j}`] = wx[i] * wz[j];
+    return areaByIJ;
+  }
+
+  // Approximate facet normal at control point (i,j) from its neighbouring
+  // grid cells -- used both for a slightly better gravity-load-on-slope
+  // estimate and for the wind pressure model.
+  function approxNormalAt(sf, i, j) {
+    const c = cpAt(sf, i, j);
+    const e = cpAt(sf, Math.min(sf.divX, i + 1), j) || c, w = cpAt(sf, Math.max(0, i - 1), j) || c;
+    const n = cpAt(sf, i, Math.min(sf.divY, j + 1)) || c, s = cpAt(sf, i, Math.max(0, j - 1)) || c;
+    const vx = { x: e.x - w.x, y: e.y - w.y, z: e.z - w.z };
+    const vz = { x: n.x - w.x === undefined ? 0 : (n.x - w.x), y: n.y - w.y, z: n.z - w.z };
+    // proper tangent vectors:
+    const tx = { x: e.x - w.x, y: e.y - w.y, z: e.z - w.z };
+    const tz = { x: n.x - s.x, y: n.y - s.y, z: n.z - s.z };
+    // cross(tz, tx) gives an outward-ish (upward) normal for a Y-up, right-handed X-right/Z-forward grid
+    let nx = tz.y * tx.z - tz.z * tx.y;
+    let ny = tz.z * tx.x - tz.x * tx.z;
+    let nz = tz.x * tx.y - tz.y * tx.x;
+    const mag = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
+    nx /= mag; ny /= mag; nz /= mag;
+    if (ny < 0) { nx = -nx; ny = -ny; nz = -nz; } // keep normals pointing generally "up/out"
+    return { x: nx, y: ny, z: nz };
+  }
+
+  // Converts a uniform surface pressure (kN/m^2, acting along -Y for
+  // gravity loads, or along a given direction for wind) into nodal loads
+  // via tributary area (spec item 14's worked example: "Roof Load = 1.5
+  // kN/m^2 -> nodal loads calculated automatically").
+  function surfaceLoadToNodalLoads(sf, pressureKNm2, dir) {
+    dir = dir || { x: 0, y: -1, z: 0 };
+    const areas = computeTributaryAreas(sf);
+    const out = [];
+    for (let j = 0; j <= sf.divY; j++) for (let i = 0; i <= sf.divX; i++) {
+      const A = areas[`${i}|${j}`] || 0;
+      if (A <= 0 || !pressureKNm2) continue;
+      const p = cpAt(sf, i, j);
+      const F = pressureKNm2 * A;
+      out.push({ nodeIndexI: i, nodeIndexJ: j, fx: dir.x * F, fy: dir.y * F, fz: dir.z * F });
+    }
+    return out;
+  }
+
+  // Wind: per spec item 15, distributes pressure "according to the
+  // surface orientation where practical" -- windward facets (normal
+  // opposing the wind) get +cpWindward, leeward/side get the supplied
+  // suction coefficients, all times the velocity pressure pz, then
+  // converted to nodal loads the same tributary-area way as gravity
+  // loads. This is a simplified coefficient model (constant Cp per
+  // orientation, not a code table) -- labelled as such in the UI, the
+  // same way the existing PEB wind panel labels its own AUTO values.
+  function windPressureAtPz(w) {
+    const Vz = (w.Vb || 0) * (w.k1 || 1) * (w.k2 || 1) * (w.k3 || 1) * (w.k4 || 1);
+    return 0.6 * Vz * Vz / 1000; // kN/m^2, IS 875 Part 3 pz formula (0.6 Vz^2, Vz in m/s, pz in N/m^2 -> /1000 for kN/m^2)
+  }
+  function windDirVector(key) {
+    if (key === 'plusX') return { x: 1, y: 0, z: 0 };
+    if (key === 'minusX') return { x: -1, y: 0, z: 0 };
+    if (key === 'plusY') return { x: 0, y: 0, z: 1 }; // note: "+Y"/"-Y" per spec item 15 refers to the two horizontal plan directions (X,Z here since Y is vertical) -- see UI label
+    return { x: 0, y: 0, z: -1 };
+  }
+  function surfaceLoadToNodalLoadsWind(sf, w, dirKey) {
+    const pz = windPressureAtPz(w);
+    const wind = windDirVector(dirKey);
+    const areas = computeTributaryAreas(sf);
+    const out = [];
+    for (let j = 0; j <= sf.divY; j++) for (let i = 0; i <= sf.divX; i++) {
+      const A = areas[`${i}|${j}`] || 0; if (A <= 0) continue;
+      const nrm = approxNormalAt(sf, i, j);
+      const facing = nrm.x * wind.x + nrm.y * wind.y + nrm.z * wind.z; // >0 facing into the wind (windward)
+      const cp = facing > 0.05 ? w.cpWindward : (facing < -0.05 ? w.cpLeeward : w.cpSide);
+      const F = cp * pz * A;
+      out.push({ nodeIndexI: i, nodeIndexJ: j, fx: nrm.x * F, fy: nrm.y * F, fz: nrm.z * F, cp });
+    }
+    return out;
+  }
+
+  // ---------------------------------------------------------------
+  // 6. Orchestrator -- builds the full sfModel from the CURRENT
+  //    controlPoints (does not touch the shape formula; call
+  //    generateSurface() first for a fresh/reset shape).
+  // ---------------------------------------------------------------
+  function nodeIdAtIJ(layerInfo, layer, i, j) {
+    const grid = layer === 'top' ? layerInfo.topId : layer === 'bottom' ? layerInfo.bottomId : layerInfo.midId;
+    return grid && grid[j] ? grid[j][i] : undefined;
+  }
+
+  function regenerateSpaceFrame(state) {
+    ensureControlPoints(state);
+    const sf = state.spaceFrame;
+    const layerInfo = generateLayers(state);
+    const built = generateMembers(state, layerInfo);
+
+    // Nodal loads from dead/live/solar (gravity, -Y) via tributary area on the TOP layer only
+    const g = sf.loads;
+    const gravityKNm2 = (Number(g.deadLoadKNm2) || 0) + (Number(g.liveLoadKNm2) || 0) + (Number(g.solarKNm2) || 0);
+    const gravityNodal = surfaceLoadToNodalLoads(sf, gravityKNm2, { x: 0, y: -1, z: 0 });
+
+    const windByDir = {};
+    if (g.wind && g.wind.enabled) {
+      Object.keys(g.wind.directions).forEach(key => { if (g.wind.directions[key]) windByDir[key] = surfaceLoadToNodalLoadsWind(sf, g.wind, key); });
+    }
+
+    // Supports: explicit node id list, resolved against the CURRENT top
+    // node ids (they're stable across a plain regenerate since node
+    // numbering is deterministic row-major, but re-validated defensively)
+    const validTopIds = new Set(); for (let j = 0; j <= sf.divY; j++) for (let i = 0; i <= sf.divX; i++) validTopIds.add(layerInfo.topId[j][i]);
+    const supportNodeIds = (sf.supports.nodeIds || []).filter(id => validTopIds.has(id));
+
+    const sfModel = {
+      nodes: layerInfo.nodes,
+      members: built.members,
+      groups: built.groups,
+      layerInfo,
+      controlPoints: sf.controlPoints,
+      depth: layerInfo.depth,
+      divX: sf.divX, divY: sf.divY,
+      gravityNodal, gravityKNm2, windByDir,
+      supportNodeIds
+    };
+    return sfModel;
+  }
+
+  // ---------------------------------------------------------------
+  // 7. Selection helpers (edges/corners, for spec items 13, 19)
+  // ---------------------------------------------------------------
+  function edgeControlPointIds(state) { return state.spaceFrame.controlPoints.filter(p => p.edge).map(p => p.id); }
+  function cornerControlPointIds(state) { return state.spaceFrame.controlPoints.filter(p => p.corner).map(p => p.id); }
+
+  return {
+    shapeElevation, generateGrid, generateSurface, ensureControlPoints, cpAt,
+    updateControlPoint, deformSurface, smoothShape, flattenSelection,
+    mirrorControlPointsInPlace, copyShape, pasteShape, hasClipboard,
+    applyMorph, commitMorph,
+    generateLayers, generateMembers, regenerateSpaceFrame,
+    computeTributaryAreas, surfaceLoadToNodalLoads, surfaceLoadToNodalLoadsWind, windPressureAtPz,
+    edgeControlPointIds, cornerControlPointIds, resolvePattern, autoDepth
+  };
+})();
+
+</script>
+<script>
+/* ============================================================
+   SPACEFRAME-VALIDATION.JS  (spec item 22)
+   Same shape as Validation.run() -- {errors, warnings} -- so it can be
+   rendered through the SAME bottom-drawer "Engineering Checks" UI the
+   PEB system already has (mode-aware, see renderWarnings() in main.js).
+   ============================================================ */
+const SpaceFrameValidation = (function () {
+  'use strict';
+
+  function run(state, sfModel) {
+    const errors = [], warnings = [];
+    const sf = state.spaceFrame;
+
+    if (!(sf.length > 0)) errors.push('Space Frame length must be greater than zero.');
+    if (!(sf.width > 0)) errors.push('Space Frame width must be greater than zero.');
+    if (!(sf.divX >= 1) || !(sf.divY >= 1)) errors.push('Grid divisions (X and Y) must each be at least 1.');
+    if (sf.divX > 60 || sf.divY > 60) warnings.push('A very high division count was entered — the 3D view and STAAD file may become very large and slow.');
+
+    if (sfModel) {
+      const anyNaN = sfModel.nodes.some(n => !isFinite(n.x) || !isFinite(n.y) || !isFinite(n.z));
+      if (anyNaN) errors.push('Invalid geometry: one or more nodes have a non-numeric coordinate — check the shape parameters.');
+
+      if (sfModel.members.length === 0) errors.push('No members were generated — turn on at least one member category (Top Chord, Diagonal, ...).');
+
+      const zeroLen = sfModel.members.filter(m => m.length < 1e-4);
+      if (zeroLen.length) errors.push(`${zeroLen.length} zero-length member(s) detected (ids: ${zeroLen.slice(0, 5).map(m => m.id).join(', ')}${zeroLen.length > 5 ? '…' : ''}).`);
+
+      const seen = new Set(); const dup = [];
+      sfModel.members.forEach(m => { const k = m.ni < m.nj ? `${m.ni}-${m.nj}` : `${m.nj}-${m.ni}`; if (seen.has(k)) dup.push(m.id); else seen.add(k); });
+      if (dup.length) errors.push(`${dup.length} duplicate member(s) detected between the same pair of nodes.`);
+
+      const posMap = new Map(); let dupPos = 0;
+      sfModel.nodes.forEach(n => { const k = `${n.x.toFixed(3)}|${n.y.toFixed(3)}|${n.z.toFixed(3)}`; if (posMap.has(k)) dupPos++; else posMap.set(k, n.id); });
+      if (dupPos) warnings.push(`${dupPos} node(s) share coordinates with another node (only possible with an extreme manual edit) — check for an accidentally flattened area.`);
+
+      const referenced = new Set(); sfModel.members.forEach(m => { referenced.add(m.ni); referenced.add(m.nj); });
+      const orphan = sfModel.nodes.filter(n => !referenced.has(n.id));
+      if (orphan.length) errors.push(`${orphan.length} unconnected node(s) found (ids: ${orphan.slice(0, 5).map(n => n.id).join(', ')}${orphan.length > 5 ? '…' : ''}).`);
+
+      const lengths = sfModel.members.map(m => m.length).filter(l => l > 1e-6);
+      if (lengths.length) {
+        const avg = lengths.reduce((s, l) => s + l, 0) / lengths.length;
+        const threshold = Math.max(12, avg * 3);
+        const long = sfModel.members.filter(m => m.length > threshold);
+        if (long.length) warnings.push(`${long.length} member(s) exceed ${Utils.formatNumber(threshold, 1)} m — unusually long for this grid; verify divisions/grid pattern (ids: ${long.slice(0, 5).map(m => m.id).join(', ')}${long.length > 5 ? '…' : ''}).`);
+      }
+
+      if (!sfModel.supportNodeIds || sfModel.supportNodeIds.length === 0) errors.push('No supports have been assigned — go to the Supports step and assign at least one node (or use "All corner nodes" / "All edge nodes").');
+      else if (sfModel.supportNodeIds.length < 3) warnings.push('Fewer than 3 supports assigned — the structure may be geometrically unstable; STAAD.Pro analysis will report this if so.');
+    }
+
+    ['topChord', 'bottomChord', 'diagonal', 'vertical', 'edge'].forEach(key => {
+      const on = sf.members[key] !== false && (key !== 'vertical' || sf.members.vertical) && (sfModel && sfModel.groups[key] && sfModel.groups[key].length > 0);
+      if (!on) return;
+      const sec = sf.sections[key];
+      if (!sec || !sec.kind) { errors.push(`No section assigned for Space Frame "${key}".`); return; }
+      if (['CHS', 'SHS', 'RHS'].includes(sec.kind)) {
+        const c = sec.custom || {};
+        const dims = sec.kind === 'CHS' ? [c.Do, c.t] : sec.kind === 'SHS' ? [c.D, c.t] : [c.D, c.B, c.t];
+        if (dims.some(d => !(d > 0))) errors.push(`Section for Space Frame "${key}" (${sec.kind}) has an invalid/zero dimension.`);
+      } else if (sec.kind === 'PIPE') {
+        if (!(sec.custom && sec.custom.Do > 0 && sec.custom.t > 0)) errors.push(`Section for Space Frame "${key}" (Pipe) has an invalid/zero dimension.`);
+      } else if (['ISMB', 'ISMC', 'ISA'].includes(sec.kind)) {
+        const props = SectionsData.getProperties(sec);
+        if (!props) errors.push(`Section for Space Frame "${key}" (${sec.kind} ${sec.designation || ''}) could not be resolved.`);
+      }
+    });
+
+    if (!(state.materials.Fy > 0) || !(state.materials.Fu > state.materials.Fy)) {
+      warnings.push('Material Fy/Fu (Materials tab) are missing or inconsistent — the Space Frame STAAD file reuses the same material as the PEB system.');
+    }
+
+    const anyGravity = (Number(sf.loads.deadLoadKNm2) || 0) + (Number(sf.loads.liveLoadKNm2) || 0) + (Number(sf.loads.solarKNm2) || 0);
+    if (anyGravity <= 0 && !sf.loads.selfWeight) warnings.push('No gravity loads are set (Dead/Live/Solar all zero and Self Weight off) — the model will be essentially unloaded.');
+    const anyWindDir = sf.loads.wind && sf.loads.wind.enabled && Object.values(sf.loads.wind.directions).some(Boolean);
+    if (sf.loads.wind && sf.loads.wind.enabled && !anyWindDir) warnings.push('Wind is enabled but no direction is selected — no wind load case will be generated.');
+
+    return { errors, warnings };
+  }
+
+  return { run };
+})();
+
+/* ============================================================
+   SPACEFRAME-STAAD.JS  (spec item 23)
+   Mirrors Staad.js exactly -- same command set, same helpers -- but
+   built from the Space Frame's own model/sections/supports/loads so
+   the two systems never interfere. generateSTAAD is exported under
+   that literal name per spec item 28's function list.
+   ============================================================ */
+const SpaceFrameStaad = (function () {
+  'use strict';
+
+  const GROUP_TO_SF_SECTION_KEY = { topChord: 'topChord', bottomChord: 'bottomChord', diagonal: 'diagonal', vertical: 'vertical', edge: 'edge', crossDiagonal: 'diagonal' };
+
+  function num(v, d) { return (Math.round((v + Number.EPSILON) * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d); }
+
+  function jointCoordinatesBlock(sfModel, unitSystem) {
+    const lines = ['JOINT COORDINATES'];
+    sfModel.nodes.forEach(n => lines.push(`${n.id} ${num(Utils.lengthForUnitSystem(n.x, unitSystem), 3)} ${num(Utils.lengthForUnitSystem(n.y, unitSystem), 3)} ${num(Utils.lengthForUnitSystem(n.z, unitSystem), 3)}`));
+    return lines.join('\n');
+  }
+  function memberIncidencesBlock(sfModel) {
+    const lines = ['MEMBER INCIDENCES'];
+    sfModel.members.forEach(m => lines.push(`${m.id} ${m.ni} ${m.nj}`));
+    return lines.join('\n');
+  }
+  function materialBlock(state, unitSystem) {
+    const m = state.materials;
+    const E = Utils.stressForUnitSystem(m.E, unitSystem);
+    const density = unitSystem === 'mm-N' ? m.densityKNm3 * 1e-6 : m.densityKNm3;
+    return ['DEFINE MATERIAL START', 'ISOTROPIC STEEL', `E ${num(E, unitSystem === 'mm-N' ? 0 : 1)}`, `POISSON ${num(m.poisson, 3)}`, `DENSITY ${num(density, unitSystem === 'mm-N' ? 10 : 2)}`, 'ALPHA 1.2E-005', 'END DEFINE MATERIAL'].join('\n');
+  }
+  function memberPropertyBlock(state, sfModel, unitSystem) {
+    const sf = state.spaceFrame;
+    const bySectionKey = {};
+    Object.keys(sfModel.groups).forEach(gKey => {
+      const secKey = GROUP_TO_SF_SECTION_KEY[gKey];
+      if (!secKey || !sfModel.groups[gKey].length) return;
+      (bySectionKey[secKey] = bySectionKey[secKey] || []).push(...sfModel.groups[gKey]);
+    });
+    const catalog = [], prismatic = [];
+    Object.keys(bySectionKey).forEach(secKey => {
+      const sec = sf.sections[secKey];
+      const list = Staad.compressIdList(bySectionKey[secKey]);
+      if (!sec) return;
+      if (['ISMB', 'ISMC', 'ISA'].includes(sec.kind)) {
+        catalog.push(`${list} TABLE ST ${sec.designation}`);
+      } else {
+        const props = sfSectionProperties(sec);
+        if (!props) return;
+        const AX = unitSystem === 'mm-N' ? props.AX * 1e6 : props.AX;
+        const IZ = unitSystem === 'mm-N' ? props.IZ * 1e12 : props.IZ;
+        const IY = unitSystem === 'mm-N' ? props.IY * 1e12 : props.IY;
+        const YD = Utils.lengthForUnitSystem(props.depthM, unitSystem);
+        const ZD = Utils.lengthForUnitSystem(props.widthM, unitSystem);
+        prismatic.push(`${list} PRISMATIC AX ${num(AX, 8)} IZ ${num(IZ, 10)} IY ${num(IY, 10)} YD ${num(YD, 4)} ZD ${num(ZD, 4)}`);
+      }
+    });
+    let out = '';
+    if (catalog.length) out += 'MEMBER PROPERTY INDIAN\n' + catalog.join('\n') + '\n';
+    if (prismatic.length) out += (out ? '\n' : '') + 'MEMBER PROPERTY\n' + prismatic.join('\n');
+    return out.trim();
+  }
+  // CHS/SHS/RHS/PIPE section properties -- reuses SectionsData's own
+  // closed-form formulas (Pipe is dimensionally identical to CHS).
+  function sfSectionProperties(sec) {
+    if (sec.kind === 'CHS' || sec.kind === 'PIPE') return SectionsData.getProperties({ kind: 'CHS', custom: sec.custom });
+    if (sec.kind === 'SHS') return SectionsData.getProperties({ kind: 'SHS', custom: sec.custom });
+    if (sec.kind === 'RHS') return SectionsData.getProperties({ kind: 'RHS', custom: sec.custom });
+    if (sec.kind === 'CUSTOM') return SectionsData.getProperties(sec);
+    return null;
+  }
+  function supportsBlock(sfModel, sf) {
+    const list = Staad.compressIdList(sfModel.supportNodeIds || []);
+    if (!list) return '';
+    let cmd;
+    if (sf.supports.type === 'fixed') cmd = 'FIXED';
+    else if (sf.supports.type === 'roller') cmd = 'FIXED BUT FX FZ MX MY MZ';
+    else cmd = 'PINNED';
+    return `SUPPORTS\n${list} ${cmd}`;
+  }
+  function releaseBlock(sf, sfModel) {
+    const lines = [];
+    ['topChord', 'bottomChord', 'diagonal', 'vertical', 'edge'].forEach(key => {
+      if (sf.releases[key] !== 'pinned') return; // 'fixed' = moment continuous = STAAD default, nothing to emit
+      const ids = sfModel.groups[key] || [];
+      if (!ids.length) return;
+      const list = Staad.compressIdList(ids);
+      lines.push(`${list} START MY MZ`, `${list} END MY MZ`);
+    });
+    return lines.length ? ['MEMBER RELEASE', ...lines].join('\n') : '';
+  }
+  function loadBlocks(state, sfModel, unitSystem) {
+    const sf = state.spaceFrame;
+    const out = []; let caseId = 1; const caseIndex = [];
+    function pushCase(title, selfWeight, nodalLoads) {
+      if (!nodalLoads.length && !selfWeight) return;
+      out.push(`LOAD ${caseId} ${Utils.sanitizeStaadName(title)}`);
+      if (selfWeight) out.push('SELFWEIGHT Y -1');
+      if (nodalLoads.length) {
+        out.push('JOINT LOAD');
+        nodalLoads.forEach(n => {
+          const nodeId = sfModel.layerInfo.topId[n.nodeIndexJ][n.nodeIndexI];
+          if (n.fx) out.push(`${nodeId} FX ${num(n.fx, 4)}`);
+          if (n.fy) out.push(`${nodeId} FY ${num(n.fy, 4)}`);
+          if (n.fz) out.push(`${nodeId} FZ ${num(n.fz, 4)}`);
+        });
+      }
+      caseIndex.push({ id: caseId, title });
+      caseId++;
+    }
+    pushCase('DEAD LOAD', true, SpaceFrame.surfaceLoadToNodalLoads(sf, Number(sf.loads.deadLoadKNm2) || 0, { x: 0, y: -1, z: 0 }));
+    pushCase('LIVE LOAD', false, SpaceFrame.surfaceLoadToNodalLoads(sf, Number(sf.loads.liveLoadKNm2) || 0, { x: 0, y: -1, z: 0 }));
+    if (Number(sf.loads.solarKNm2) > 0) pushCase('SOLAR LOAD', false, SpaceFrame.surfaceLoadToNodalLoads(sf, Number(sf.loads.solarKNm2) || 0, { x: 0, y: -1, z: 0 }));
+    if (sf.loads.wind && sf.loads.wind.enabled) {
+      const labels = { plusX: 'WIND +X', minusX: 'WIND -X', plusY: 'WIND +Y', minusY: 'WIND -Y' };
+      Object.keys(sf.loads.wind.directions).forEach(key => {
+        if (!sf.loads.wind.directions[key]) return;
+        pushCase(labels[key], false, SpaceFrame.surfaceLoadToNodalLoadsWind(sf, sf.loads.wind, key));
+      });
+    }
+    (sf.loads.pointLoads || []).forEach((pl, idx) => {
+      if (!pl.nodeId) return;
+      out.push(`LOAD ${caseId} POINT LOAD ${idx + 1}`);
+      out.push('JOINT LOAD');
+      if (pl.fx) out.push(`${pl.nodeId} FX ${num(pl.fx, 4)}`);
+      if (pl.fy) out.push(`${pl.nodeId} FY ${num(pl.fy, 4)}`);
+      if (pl.fz) out.push(`${pl.nodeId} FZ ${num(pl.fz, 4)}`);
+      caseIndex.push({ id: caseId, title: `POINT LOAD ${idx + 1}` }); caseId++;
+    });
+    (sf.loads.lineLoads || []).forEach((ll, idx) => {
+      if (!ll.memberId || !ll.w) return;
+      out.push(`LOAD ${caseId} LINE LOAD ${idx + 1}`);
+      out.push('MEMBER LOAD');
+      out.push(`${ll.memberId} UNI GY ${num(-Math.abs(ll.w), 4)}`);
+      caseIndex.push({ id: caseId, title: `LINE LOAD ${idx + 1}` }); caseId++;
+    });
+    return { text: out.join('\n'), caseIndex };
+  }
+  function combinationBlock(caseIndex) {
+    if (caseIndex.length < 2) return '';
+    const dead = caseIndex.find(c => c.title === 'DEAD LOAD'), live = caseIndex.find(c => c.title === 'LIVE LOAD');
+    const winds = caseIndex.filter(c => c.title.indexOf('WIND') === 0);
+    const lines = []; let comboId = 1;
+    if (dead) lines.push(`LOAD COMBINATION ${comboId++} 1.5(DL)`, `${dead.id} 1.5`);
+    if (dead && live) lines.push(`LOAD COMBINATION ${comboId++} 1.5(DL+LL)`, `${dead.id} 1.5 ${live.id} 1.5`);
+    winds.forEach(w => { if (dead) lines.push(`LOAD COMBINATION ${comboId++} 1.5(DL+${w.title})`, `${dead.id} 1.5 ${w.id} 1.5`); });
+    if (dead && live) winds.forEach(w => { lines.push(`LOAD COMBINATION ${comboId++} 1.2(DL+LL+${w.title})`, `${dead.id} 1.2 ${live.id} 1.2 ${w.id} 1.2`); });
+    return lines.join('\n');
+  }
+  function designBlock(state) {
+    const grade = state.materials;
+    return ['PARAMETER 1', 'CODE IS800', `FYLD ${num(Utils.stressForUnitSystem(grade.Fy, state.project.unitSystem), state.project.unitSystem === 'mm-N' ? 1 : 0)} ALL`, 'TRACK 2 ALL', 'CHECK MEMBER ALL'].join('\n');
+  }
+
+  function generate(state, sfModel) {
+    const unitSystem = state.project.unitSystem;
+    const jobInfo = ['START JOB INFORMATION', `ENGINEER DATE ${new Date().toISOString().slice(0, 10)}`, 'END JOB INFORMATION'].join('\n');
+    const loads = loadBlocks(state, sfModel, unitSystem);
+    const parts = [
+      'STAAD SPACE',
+      jobInfo,
+      'INPUT WIDTH 79',
+      Utils.staadUnitCommand(unitSystem),
+      jointCoordinatesBlock(sfModel, unitSystem),
+      memberIncidencesBlock(sfModel),
+      materialBlock(state, unitSystem),
+      memberPropertyBlock(state, sfModel, unitSystem),
+      'CONSTANTS',
+      'MATERIAL STEEL ALL',
+      supportsBlock(sfModel, state.spaceFrame),
+      releaseBlock(state.spaceFrame, sfModel),
+      loads.text,
+      combinationBlock(loads.caseIndex),
+      'PERFORM ANALYSIS',
+      'PRINT SUPPORT REACTION',
+      'PRINT MEMBER FORCES ALL',
+      designBlock(state),
+      'FINISH'
+    ];
+    return parts.filter(p => p && p.trim().length).join('\n\n');
+  }
+
+  return { generateSTAAD: generate, generate, GROUP_TO_SF_SECTION_KEY, sfSectionProperties };
+})();
+
+/* ============================================================
+   SPACEFRAME-REPORT.JS  (spec item 24)
+   Deliberately separates "Geometry/Load Generator" facts (always
+   real, computed right here) from "Structural Analysis/Design
+   Results" (never fabricated -- this tool has no solver; those rows
+   say so plainly, honouring spec item 24's explicit instruction).
+   ============================================================ */
+const SpaceFrameReport = (function () {
+  'use strict';
+
+  function buildSummary(state, sfModel, validation) {
+    const sf = state.spaceFrame;
+    const g = sfModel.groups;
+    return {
+      generatedAt: new Date().toISOString(),
+      project: state.project,
+      geometry: {
+        type: sf.type, length: sf.length, width: sf.width, divX: sf.divX, divY: sf.divY,
+        layers: sf.layers, depthMode: sfModel.layerInfo.depth !== undefined ? sf.depth.mode : sf.depth.mode,
+        depth: sfModel.layerInfo.depth, gridPattern: sf.gridPattern, resolvedGridPattern: SpaceFrame.resolvePattern(sf.gridPattern)
+      },
+      counts: {
+        nodeCount: sfModel.nodes.length, memberCount: sfModel.members.length,
+        topChord: (g.topChord || []).length, bottomChord: (g.bottomChord || []).length,
+        diagonal: (g.diagonal || []).length, vertical: (g.vertical || []).length,
+        edge: (g.edge || []).length, crossDiagonal: (g.crossDiagonal || []).length,
+        supportCount: (sfModel.supportNodeIds || []).length
+      },
+      sections: sf.sections,
+      loads: {
+        selfWeight: sf.loads.selfWeight, deadLoadKNm2: sf.loads.deadLoadKNm2, liveLoadKNm2: sf.loads.liveLoadKNm2,
+        solarKNm2: sf.loads.solarKNm2, windEnabled: sf.loads.wind.enabled,
+        windDirections: Object.keys(sf.loads.wind.directions).filter(k => sf.loads.wind.directions[k])
+      },
+      validation
+    };
+  }
+
+  function toText(s) {
+    const L = []; const line = (t = '') => L.push(t); const rule = () => L.push('-'.repeat(64));
+    line('SPACE FRAME STRUCTURAL — GEOMETRY / LOAD GENERATOR SUMMARY');
+    line('AUTO-GENERATED -- VERIFY WITH APPLICABLE DESIGN CODE');
+    line(`Generated: ${s.generatedAt}`); rule();
+    line('PROJECT'); line(`  Name : ${s.project.name}`); line(`  Units: ${s.project.unitSystem}`); rule();
+    line('GEOMETRY / LOAD GENERATOR (computed by this tool)');
+    line(`  Shape type          : ${s.geometry.type}`);
+    line(`  Plan (Length x Width): ${Utils.formatNumber(s.geometry.length, 2)} x ${Utils.formatNumber(s.geometry.width, 2)} m`);
+    line(`  Grid divisions       : ${s.geometry.divX} x ${s.geometry.divY}`);
+    line(`  Layers               : ${s.geometry.layers}   Depth: ${Utils.formatNumber(s.geometry.depth, 3)} m (${s.geometry.depthMode})`);
+    line(`  Grid pattern         : ${s.geometry.gridPattern}${s.geometry.gridPattern !== s.geometry.resolvedGridPattern ? ' (using ' + s.geometry.resolvedGridPattern + ' — see scope note)' : ''}`);
+    rule();
+    line('MODEL COUNTS');
+    line(`  Nodes: ${s.counts.nodeCount}   Members: ${s.counts.memberCount}   Supports: ${s.counts.supportCount}`);
+    line(`  Top chord: ${s.counts.topChord}  Bottom chord: ${s.counts.bottomChord}  Diagonal: ${s.counts.diagonal}  Vertical: ${s.counts.vertical}  Edge: ${s.counts.edge}  Cross-diagonal: ${s.counts.crossDiagonal}`);
+    rule();
+    line('SECTIONS');
+    Object.keys(s.sections).forEach(k => { const sec = s.sections[k]; line(`  ${k}: ${sec.kind}${sec.designation ? ' ' + sec.designation : sec.custom ? ' ' + JSON.stringify(sec.custom) : ''}`); });
+    rule();
+    line('LOADS');
+    line(`  Self weight: ${s.loads.selfWeight ? 'ON' : 'off'}   Dead: ${s.loads.deadLoadKNm2} kN/m2   Live: ${s.loads.liveLoadKNm2} kN/m2   Solar: ${s.loads.solarKNm2} kN/m2`);
+    line(`  Wind: ${s.loads.windEnabled ? ('ON — ' + s.loads.windDirections.join(', ')) : 'off'}`);
+    rule();
+    line('ENGINEERING CHECKS (this generator)');
+    if (s.validation.errors.length) { line('  ERRORS:'); s.validation.errors.forEach(e => line(`    - ${e}`)); } else line('  No blocking errors.');
+    if (s.validation.warnings.length) { line('  WARNINGS:'); s.validation.warnings.forEach(w => line(`    - ${w}`)); } else line('  No warnings.');
+    rule();
+    line('STRUCTURAL ANALYSIS / DESIGN RESULTS');
+    line('  NOT PERFORMED IN-BROWSER. This tool generates geometry, loads and');
+    line('  the STAAD.Pro input file only — it does not run a structural');
+    line('  analysis itself. Open the downloaded .STD file in STAAD.Pro,');
+    line('  run PERFORM ANALYSIS + CHECK MEMBER, and read displacements,');
+    line('  member forces and design results there. No result on this line');
+    line('  is fabricated or estimated.');
+    rule();
+    line('This output is a design aid only and requires review and sign-off');
+    line('by a qualified structural engineer before use for construction.');
+    return L.join('\n');
+  }
+
+  function nodesCSV(sfModel) {
+    const rows = [['Node', 'X', 'Y', 'Z']];
+    sfModel.nodes.forEach(n => rows.push([n.id, Utils.round(n.x, 3), Utils.round(n.y, 3), Utils.round(n.z, 3)]));
+    return Utils.rowsToCSV(rows);
+  }
+  function membersCSV(sfModel, state) {
+    const rows = [['Member', 'Start Node', 'End Node', 'Group', 'Section', 'Length (m)']];
+    sfModel.members.forEach(m => {
+      const secKey = SpaceFrameStaad.GROUP_TO_SF_SECTION_KEY[m.group];
+      const sec = secKey ? state.spaceFrame.sections[secKey] : null;
+      const secLabel = sec ? (sec.designation || `${sec.kind} ${sec.custom ? JSON.stringify(sec.custom) : ''}`) : '';
+      rows.push([m.id, m.ni, m.nj, m.group, secLabel, Utils.round(m.length, 3)]);
+    });
+    return Utils.rowsToCSV(rows);
+  }
+  function printableHTML(s) { return `<div style="font-family:ui-monospace,Consolas,monospace;white-space:pre-wrap;font-size:12px;padding:24px;color:#111;">` + Utils.escapeHTML(toText(s)) + `</div>`; }
+
+  return { buildSummary, toText, nodesCSV, membersCSV, printableHTML };
+})();
+
+</script>
+<script>
+/* ============================================================
    STORAGE.JS
 
    Project persistence uses plain JSON files the person downloads
@@ -3247,10 +4855,18 @@ const Viewer = (function () {
     nodeGroup = new THREE.Group(); scene.add(nodeGroup);
     labelGroup = new THREE.Group(); labelGroup.visible = showLabels; scene.add(labelGroup);
     arrowGroup = new THREE.Group(); scene.add(arrowGroup);
+    initSFGroups();
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
     renderer.domElement.addEventListener('click', onClick);
+    // Space Frame control-point drag + box-select (spec items 3, 4, 9) --
+    // these early-return internally unless Space Frame is both the active
+    // system and edit mode is on, so PEB's click-to-select above is
+    // completely unaffected.
+    renderer.domElement.addEventListener('pointerdown', onSFPointerDown);
+    window.addEventListener('pointermove', onSFPointerMove);
+    window.addEventListener('pointerup', onSFPointerUp);
     // Belt-and-braces: make sure the browser never intercepts wheel/gesture
     // scrolling over the 3D canvas as a page-zoom/page-scroll -- only the
     // OrbitControls camera zoom should respond to it.
@@ -3434,6 +5050,7 @@ const Viewer = (function () {
   }
 
   function onClick(evt) {
+    if (sfActiveSystem === 'spaceFrame') return onSFClick(evt);
     if (!currentModel) return;
     const rect = renderer.domElement.getBoundingClientRect();
     mouse.x = ((evt.clientX - rect.left) / rect.width) * 2 - 1;
@@ -3491,7 +5108,415 @@ const Viewer = (function () {
 
   function clearWindArrows() { clearGroup(arrowGroup); }
 
-  return { init, rebuild, frameView, toggleLabels, onSelect, showWindArrows, clearWindArrows, resize, setMode, zoomBy, fitView };
+  // ================================================================
+  // SPACE FRAME 3D EDITOR EXTENSION (spec items 3, 4, 9, 10, 13, 15, 26)
+  // Added alongside the existing PEB groups/handlers above so both
+  // systems share one THREE.Scene/camera/renderer/OrbitControls without
+  // interfering -- setActiveSystem() toggles which set is visible, and
+  // every SF handler below early-returns unless Space Frame is both the
+  // active system AND edit mode is on, so none of this touches PEB
+  // behaviour at all.
+  // ================================================================
+  let sfGroup, sfTopChordGroup, sfBottomChordGroup, sfDiagonalGroup, sfVerticalGroup, sfEdgeGroup, sfCrossDiagonalGroup,
+      sfNodeGroup, sfControlPointGroup, sfSupportGroup, sfWindArrowGroup, sfTopSurfaceGroup, sfBottomSurfaceGroup, sfGridHelperGroup;
+  let sfCurrentModel = null, sfCurrentState = null, sfHasFramedOnce = false, sfActiveSystem = 'peb';
+  let sfEditModeActive = false, sfDragAxis = 'vertical', sfEditTool = 'select';
+  let sfSelectedPointIds = new Set(), sfSelectedMemberIds = new Set(), sfSelectedNodeIds = new Set();
+  let sfSelectionCallback = null, sfDragUpdateCallback = null, sfPointCommitCallback = null;
+  let sfDragging = false, sfDragPlane = null, sfDragStartWorld = null, sfDragPointStartPositions = null, sfSuppressNextClick = false;
+  let sfBoxSelecting = false, sfBoxSelectDiv = null, sfBoxStart = null;
+
+  const SF_COLORS = {
+    topChord: 0x1b3a5c, bottomChord: 0x0d9488, diagonal: 0x64748b, vertical: 0x475569,
+    edge: 0xb45309, crossDiagonal: 0x9333ea,
+    controlPoint: 0x2563eb, controlPointSelected: 0xef4444, memberSelected: 0xef4444,
+    node: 0xcbd5e1, nodeSelected: 0xef4444, support: 0x334155
+  };
+  const SF_RADIUS = { topChord: 0.07, bottomChord: 0.05, diagonal: 0.035, vertical: 0.035, edge: 0.075, crossDiagonal: 0.028 };
+
+  function initSFGroups() {
+    sfGroup = new THREE.Group();
+    sfTopChordGroup = new THREE.Group(); sfBottomChordGroup = new THREE.Group(); sfDiagonalGroup = new THREE.Group();
+    sfVerticalGroup = new THREE.Group(); sfEdgeGroup = new THREE.Group(); sfCrossDiagonalGroup = new THREE.Group();
+    sfNodeGroup = new THREE.Group(); sfControlPointGroup = new THREE.Group(); sfSupportGroup = new THREE.Group();
+    sfWindArrowGroup = new THREE.Group(); sfTopSurfaceGroup = new THREE.Group(); sfBottomSurfaceGroup = new THREE.Group();
+    sfGridHelperGroup = new THREE.Group();
+    [sfTopChordGroup, sfBottomChordGroup, sfDiagonalGroup, sfVerticalGroup, sfEdgeGroup, sfCrossDiagonalGroup,
+      sfNodeGroup, sfControlPointGroup, sfSupportGroup, sfWindArrowGroup, sfTopSurfaceGroup, sfBottomSurfaceGroup, sfGridHelperGroup]
+      .forEach(g => sfGroup.add(g));
+    sfGroup.visible = false;
+    scene.add(sfGroup);
+  }
+
+  function sfMemberGroupTarget(key) {
+    return { topChord: sfTopChordGroup, bottomChord: sfBottomChordGroup, diagonal: sfDiagonalGroup, vertical: sfVerticalGroup, edge: sfEdgeGroup, crossDiagonal: sfCrossDiagonalGroup }[key] || sfTopChordGroup;
+  }
+  function sfAllMemberGroups() { return [sfTopChordGroup, sfBottomChordGroup, sfDiagonalGroup, sfVerticalGroup, sfEdgeGroup, sfCrossDiagonalGroup]; }
+
+  function addSFSurfaceMesh(group, idGrid, nodesArr, color, opacity) {
+    if (!idGrid || !idGrid.length) return;
+    const nodeById = {}; nodesArr.forEach(n => { nodeById[n.id] = n; });
+    const divY = idGrid.length - 1, divX = idGrid[0].length - 1;
+    if (divX < 1 || divY < 1) return;
+    const positions = []; const indices = [];
+    for (let j = 0; j <= divY; j++) for (let i = 0; i <= divX; i++) { const n = nodeById[idGrid[j][i]]; positions.push(n.x, n.y, n.z); }
+    function vIdx(i, j) { return j * (divX + 1) + i; }
+    for (let j = 0; j < divY; j++) for (let i = 0; i < divX; i++) {
+      indices.push(vIdx(i, j), vIdx(i + 1, j), vIdx(i, j + 1));
+      indices.push(vIdx(i + 1, j), vIdx(i + 1, j + 1), vIdx(i, j + 1));
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setIndex(indices);
+    geo.computeVertexNormals();
+    const mat = new THREE.MeshStandardMaterial({ color, opacity, transparent: true, side: THREE.DoubleSide, roughness: 0.85 });
+    group.add(new THREE.Mesh(geo, mat));
+  }
+
+  // Full rebuild of the Space Frame groups from a freshly-generated
+  // sfModel (spec items 16 & 26 -- called after every edit). Mirrors
+  // rebuild() above but writes into the sf* groups instead so the two
+  // systems' geometry never mixes.
+  function rebuildSpaceFrame(sfModel, state) {
+    if (!ready) return;
+    sfCurrentModel = sfModel; sfCurrentState = state;
+    [sfTopChordGroup, sfBottomChordGroup, sfDiagonalGroup, sfVerticalGroup, sfEdgeGroup, sfCrossDiagonalGroup,
+      sfNodeGroup, sfControlPointGroup, sfSupportGroup, sfTopSurfaceGroup, sfBottomSurfaceGroup, sfGridHelperGroup]
+      .forEach(clearGroup);
+
+    const sf = state.spaceFrame;
+    const vis = sf.ui.visibleGroups || {};
+    const preview = !!sf.ui.simplifiedPreview;
+    const nodeById = {}; sfModel.nodes.forEach(n => { nodeById[n.id] = n; });
+
+    sfModel.members.forEach(m => {
+      const a = vec(nodeById[m.ni]), b = vec(nodeById[m.nj]);
+      const selected = sfSelectedMemberIds.has(m.id);
+      const color = selected ? SF_COLORS.memberSelected : (SF_COLORS[m.group] || 0x999999);
+      const obj = preview
+        ? makeMemberLine(a, b, color, { kind: 'sfMember', member: m })
+        : makeMemberMesh(a, b, SF_RADIUS[m.group] || 0.03, color, { kind: 'sfMember', member: m });
+      sfMemberGroupTarget(m.group).add(obj);
+    });
+    ['topChord', 'bottomChord', 'diagonal', 'vertical', 'edge', 'crossDiagonal'].forEach(k => { sfMemberGroupTarget(k).visible = vis[k] !== false; });
+
+    const supportSet = new Set(sfModel.supportNodeIds || []);
+    sfModel.nodes.forEach(n => {
+      const isCP = n.tag === 'top';
+      const selected = isCP ? sfSelectedPointIds.has(n.id) : sfSelectedNodeIds.has(n.id);
+      const geo = new THREE.SphereGeometry(isCP ? 0.11 : 0.06, 12, 10);
+      const mat = new THREE.MeshStandardMaterial({ color: selected ? SF_COLORS.controlPointSelected : (isCP ? SF_COLORS.controlPoint : SF_COLORS.node) });
+      const sph = new THREE.Mesh(geo, mat);
+      sph.position.set(n.x, n.y, n.z);
+      sph.userData = { kind: isCP ? 'sfControlPoint' : 'sfNode', node: n };
+      (isCP ? sfControlPointGroup : sfNodeGroup).add(sph);
+
+      if (supportSet.has(n.id)) {
+        const cone = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.32, 4), new THREE.MeshStandardMaterial({ color: SF_COLORS.support }));
+        cone.position.set(n.x, n.y - 0.16, n.z);
+        cone.rotation.y = Math.PI / 4;
+        cone.userData = { kind: 'sfSupport', node: n };
+        sfSupportGroup.add(cone);
+      }
+    });
+    sfControlPointGroup.visible = vis.controlPoints !== false;
+    sfNodeGroup.visible = vis.nodes !== false;
+    sfSupportGroup.visible = vis.supports !== false;
+
+    if (vis.topSurface) addSFSurfaceMesh(sfTopSurfaceGroup, sfModel.layerInfo.topId, sfModel.nodes, 0x60a5fa, 0.35);
+    if (vis.bottomSurface && sfModel.layerInfo.bottomId && sfModel.layerInfo.bottomId.length === sf.divY + 1) addSFSurfaceMesh(sfBottomSurfaceGroup, sfModel.layerInfo.bottomId, sfModel.nodes, 0x34d399, 0.28);
+
+    const gridSize = Math.max(sf.length, sf.width) * 1.4;
+    const g = new THREE.GridHelper(Math.max(10, gridSize), 20, 0xb9c2cc, 0xdfe4e9);
+    g.position.y = -0.02;
+    sfGridHelperGroup.add(g);
+
+    if (sfActiveSystem === 'spaceFrame') { frameViewSF(sfHasFramedOnce ? null : 'iso'); sfHasFramedOnce = true; }
+  }
+
+  // Cheap, geometry-only refresh used WHILE dragging (spec item 27 --
+  // throttled to rAF by main.js): re-reads control point / node
+  // positions straight from sfCurrentState without touching materials,
+  // selection state or re-creating any THREE object, so it's fast even
+  // on larger grids.
+  function refreshSFPositionsOnly() {
+    if (!sfCurrentModel || !sfCurrentState) return;
+    const nodeById = {}; sfCurrentModel.nodes.forEach(n => { nodeById[n.id] = n; });
+    // Control points and top-layer model nodes are assigned the SAME ids
+    // in the SAME row-major order by generateGrid()/generateLayers() (see
+    // SpaceFrame.js), so this direct id lookup is safe -- push the
+    // live-dragged control point x/y/z back onto the matching node record
+    // before redrawing. NOTE: this only moves the TOP layer live; the
+    // bottom/mid layer and connectivity stay at their pre-drag positions
+    // until the drag is released and a full regenerateSpaceFrame() runs
+    // (spec item 27's performance trade-off) -- diagonals will visibly
+    // stretch toward the moving top node and snap to their recomputed
+    // offset the instant the mouse is released, which is expected.
+    sfCurrentState.spaceFrame.controlPoints.forEach(cp => { const n = nodeById[cp.id]; if (n) { n.x = cp.x; n.y = cp.y; n.z = cp.z; } });
+    sfAllMemberGroups().forEach(grp => {
+      grp.children.forEach(obj => {
+        const m = obj.userData.member; const a = nodeById[m.ni], b = nodeById[m.nj];
+        if (!a || !b) return;
+        if (obj.isLine) { obj.geometry.setFromPoints([vec(a), vec(b)]); obj.computeLineDistances(); }
+        else {
+          const av = vec(a), bv = vec(b);
+          const dir = new THREE.Vector3().subVectors(bv, av); const len = dir.length() || 0.001;
+          obj.position.copy(av).add(bv).multiplyScalar(0.5);
+          obj.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+          obj.scale.set(1, len / (obj.geometry.parameters.height || len), 1);
+        }
+      });
+    });
+    [sfControlPointGroup, sfNodeGroup].forEach(grp => grp.children.forEach(obj => { const n = nodeById[obj.userData.node.id]; if (n) obj.position.set(n.x, n.y, n.z); }));
+    sfSupportGroup.children.forEach(obj => { const n = nodeById[obj.userData.node.id]; if (n) obj.position.set(n.x, n.y - 0.16, n.z); });
+  }
+
+  function frameViewSF(which) {
+    if (!sfGroup) return;
+    const box = new THREE.Box3().setFromObject(sfGroup);
+    if (box.isEmpty()) return;
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z, 2);
+    const dist = maxDim * 1.7;
+    let pos;
+    if (!which) {
+      const dir = new THREE.Vector3().subVectors(camera.position, controls.target);
+      if (dir.lengthSq() < 1e-6) dir.set(0.72, 0.62, 0.72);
+      dir.normalize().multiplyScalar(dist);
+      pos = center.clone().add(dir);
+    } else if (which === 'front') pos = new THREE.Vector3(center.x, center.y, center.z + dist);
+    else if (which === 'side') pos = new THREE.Vector3(center.x + dist, center.y, center.z);
+    else if (which === 'top') pos = new THREE.Vector3(center.x, center.y + dist, center.z + 0.0001);
+    else pos = new THREE.Vector3(center.x + dist * 0.72, center.y + dist * 0.62, center.z + dist * 0.72);
+    camera.near = Math.max(0.05, dist / 500); camera.far = dist * 20; camera.updateProjectionMatrix();
+    camera.position.copy(pos);
+    controls.target.copy(center);
+    controls.update();
+  }
+
+  function setActiveSystem(mode) {
+    sfActiveSystem = mode;
+    const pebVisible = mode !== 'spaceFrame';
+    if (modelGroup) modelGroup.visible = pebVisible;
+    if (nodeGroup) nodeGroup.visible = pebVisible;
+    if (labelGroup) labelGroup.visible = pebVisible && showLabels;
+    if (arrowGroup) arrowGroup.visible = pebVisible;
+    if (sfGroup) sfGroup.visible = !pebVisible;
+  }
+
+  function setSFEditMode(active) { sfEditModeActive = !!active; if (!active && controls) controls.enabled = true; }
+  function setSFDragAxis(axis) { sfDragAxis = axis; }
+  function setSFEditTool(tool) { sfEditTool = tool; }
+  function sfSelectionSnapshot() { return { pointIds: Array.from(sfSelectedPointIds), memberIds: Array.from(sfSelectedMemberIds), nodeIds: Array.from(sfSelectedNodeIds) }; }
+  function getSFSelection() { return sfSelectionSnapshot(); }
+  function setSFPointSelection(ids) {
+    sfSelectedPointIds = new Set(ids); sfSelectedMemberIds.clear(); sfSelectedNodeIds.clear();
+    if (sfCurrentModel && sfCurrentState) rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+    if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+  }
+  function setSFMemberSelection(ids) {
+    sfSelectedMemberIds = new Set(ids); sfSelectedPointIds.clear(); sfSelectedNodeIds.clear();
+    if (sfCurrentModel && sfCurrentState) rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+    if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+  }
+  function setSFNodeSelection(ids) {
+    sfSelectedNodeIds = new Set(ids); sfSelectedPointIds.clear(); sfSelectedMemberIds.clear();
+    if (sfCurrentModel && sfCurrentState) rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+    if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+  }
+  function clearSFSelection() {
+    sfSelectedPointIds.clear(); sfSelectedMemberIds.clear(); sfSelectedNodeIds.clear();
+    if (sfCurrentModel && sfCurrentState) rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+    if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+  }
+  function onSFSelectionChange(cb) { sfSelectionCallback = cb; }
+  function onSFDragUpdate(cb) { sfDragUpdateCallback = cb; }
+  function onSFPointCommit(cb) { sfPointCommitCallback = cb; }
+
+  function sfScreenToNDC(evt) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    return { x: ((evt.clientX - rect.left) / rect.width) * 2 - 1, y: -((evt.clientY - rect.top) / rect.height) * 2 + 1 };
+  }
+  function ensureSFBoxDiv() {
+    if (sfBoxSelectDiv) return;
+    sfBoxSelectDiv = document.createElement('div');
+    sfBoxSelectDiv.style.cssText = 'position:fixed;border:1px solid #2563eb;background:rgba(37,99,235,0.12);pointer-events:none;z-index:9999;display:none;';
+    document.body.appendChild(sfBoxSelectDiv);
+  }
+  function makeSFDragPlane(pointWorld, axis) {
+    if (axis === 'horizontal') return new THREE.Plane(new THREE.Vector3(0, 1, 0), -pointWorld.y);
+    if (axis === 'free') {
+      const n = new THREE.Vector3().subVectors(camera.position, pointWorld).normalize();
+      return new THREE.Plane().setFromNormalAndCoplanarPoint(n, pointWorld);
+    }
+    // 'vertical' (default): plane containing the vertical line through the
+    // point, oriented toward the camera -- horizontal-only normal.
+    const toCam = new THREE.Vector3(camera.position.x - pointWorld.x, 0, camera.position.z - pointWorld.z);
+    if (toCam.lengthSq() < 1e-6) toCam.set(1, 0, 0);
+    toCam.normalize();
+    return new THREE.Plane().setFromNormalAndCoplanarPoint(toCam, pointWorld);
+  }
+
+  function onSFPointerDown(evt) {
+    if (!sfEditModeActive || sfActiveSystem !== 'spaceFrame' || !sfCurrentState) return;
+    const ndc = sfScreenToNDC(evt);
+
+    if (sfEditTool === 'box') {
+      sfBoxSelecting = true; sfBoxStart = { x: evt.clientX, y: evt.clientY };
+      ensureSFBoxDiv();
+      Object.assign(sfBoxSelectDiv.style, { left: evt.clientX + 'px', top: evt.clientY + 'px', width: '0px', height: '0px', display: 'block' });
+      controls.enabled = false;
+      evt.preventDefault();
+      return;
+    }
+
+    mouse.x = ndc.x; mouse.y = ndc.y;
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(sfControlPointGroup.children);
+    if (!hits.length) return;
+
+    const pointId = hits[0].object.userData.node.id;
+    const additive = evt.shiftKey || evt.ctrlKey || evt.metaKey;
+    if (!sfSelectedPointIds.has(pointId)) {
+      if (!additive) sfSelectedPointIds.clear();
+      sfSelectedPointIds.add(pointId);
+    } else if (additive) {
+      sfSelectedPointIds.delete(pointId);
+    }
+    rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+    if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+    if (!sfSelectedPointIds.has(pointId)) return; // this click only deselected it -- nothing to drag
+
+    sfDragging = true;
+    controls.enabled = false;
+    sfDragPlane = makeSFDragPlane(hits[0].object.position.clone(), sfDragAxis);
+    sfDragStartWorld = hits[0].object.position.clone();
+    sfDragPointStartPositions = new Map();
+    sfCurrentState.spaceFrame.controlPoints.forEach(p => { if (sfSelectedPointIds.has(p.id)) sfDragPointStartPositions.set(p.id, { x: p.x, y: p.y, z: p.z }); });
+    evt.preventDefault();
+  }
+
+  function onSFPointerMove(evt) {
+    if (!sfEditModeActive || sfActiveSystem !== 'spaceFrame') return;
+
+    if (sfBoxSelecting) {
+      const x = Math.min(evt.clientX, sfBoxStart.x), y = Math.min(evt.clientY, sfBoxStart.y);
+      const w = Math.abs(evt.clientX - sfBoxStart.x), h = Math.abs(evt.clientY - sfBoxStart.y);
+      Object.assign(sfBoxSelectDiv.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+      return;
+    }
+
+    if (!sfDragging || !sfDragPlane) return;
+    const ndc = sfScreenToNDC(evt);
+    mouse.x = ndc.x; mouse.y = ndc.y;
+    raycaster.setFromCamera(mouse, camera);
+    const hitPoint = new THREE.Vector3();
+    if (!raycaster.ray.intersectPlane(sfDragPlane, hitPoint)) return;
+
+    const delta = new THREE.Vector3().subVectors(hitPoint, sfDragStartWorld);
+    let dx = delta.x, dy = delta.y, dz = delta.z;
+    if (sfDragAxis === 'vertical') { dx = 0; dz = 0; }
+    else if (sfDragAxis === 'horizontal') { dy = 0; }
+
+    sfSelectedPointIds.forEach(id => {
+      const start = sfDragPointStartPositions.get(id);
+      const pt = sfCurrentState.spaceFrame.controlPoints.find(p => p.id === id);
+      if (start && pt) { pt.x = start.x + dx; pt.y = start.y + dy; pt.z = start.z + dz; }
+    });
+
+    if (sfDragUpdateCallback) sfDragUpdateCallback();
+  }
+
+  function onSFPointerUp(evt) {
+    if (!sfEditModeActive || sfActiveSystem !== 'spaceFrame') return;
+
+    if (sfBoxSelecting) {
+      sfBoxSelecting = false; sfSuppressNextClick = true;
+      if (sfBoxSelectDiv) sfBoxSelectDiv.style.display = 'none';
+      controls.enabled = true;
+      const x1 = Math.min(evt.clientX, sfBoxStart.x), x2 = Math.max(evt.clientX, sfBoxStart.x);
+      const y1 = Math.min(evt.clientY, sfBoxStart.y), y2 = Math.max(evt.clientY, sfBoxStart.y);
+      if (Math.abs(x2 - x1) > 3 || Math.abs(y2 - y1) > 3) {
+        const additive = evt.shiftKey || evt.ctrlKey || evt.metaKey;
+        if (!additive) sfSelectedPointIds.clear();
+        sfControlPointGroup.children.forEach(mesh => {
+          const p = mesh.position.clone().project(camera);
+          const sx = (p.x * 0.5 + 0.5) * window.innerWidth, sy = (-p.y * 0.5 + 0.5) * window.innerHeight;
+          if (sx >= x1 && sx <= x2 && sy >= y1 && sy <= y2) sfSelectedPointIds.add(mesh.userData.node.id);
+        });
+        if (sfCurrentModel && sfCurrentState) rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+        if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+      }
+      return;
+    }
+
+    if (sfDragging) {
+      sfDragging = false; sfSuppressNextClick = true;
+      controls.enabled = true;
+      if (sfPointCommitCallback) sfPointCommitCallback();
+    }
+  }
+
+  function onSFClick(evt) {
+    if (sfSuppressNextClick) { sfSuppressNextClick = false; return; }
+    if (!sfCurrentModel || !sfCurrentState) return;
+    const ndc = sfScreenToNDC(evt);
+    mouse.x = ndc.x; mouse.y = ndc.y;
+    raycaster.setFromCamera(mouse, camera);
+
+    const cpHits = raycaster.intersectObjects(sfControlPointGroup.children);
+    if (cpHits.length) return; // handled entirely by pointerdown/up above
+
+    let memberHit = null;
+    sfAllMemberGroups().forEach(g => { const h = raycaster.intersectObjects(g.children); if (h.length && (!memberHit || h[0].distance < memberHit.distance)) memberHit = h[0]; });
+    const nodeHits = raycaster.intersectObjects(sfNodeGroup.children);
+    const additive = evt.shiftKey || evt.ctrlKey || evt.metaKey;
+
+    if (memberHit && (!nodeHits.length || memberHit.distance <= nodeHits[0].distance)) {
+      const id = memberHit.object.userData.member.id;
+      if (!additive) { sfSelectedMemberIds.clear(); sfSelectedNodeIds.clear(); }
+      sfSelectedMemberIds.has(id) ? sfSelectedMemberIds.delete(id) : sfSelectedMemberIds.add(id);
+    } else if (nodeHits.length) {
+      const id = nodeHits[0].object.userData.node.id;
+      if (!additive) { sfSelectedMemberIds.clear(); sfSelectedNodeIds.clear(); }
+      sfSelectedNodeIds.has(id) ? sfSelectedNodeIds.delete(id) : sfSelectedNodeIds.add(id);
+    } else if (!additive) {
+      sfSelectedMemberIds.clear(); sfSelectedNodeIds.clear(); sfSelectedPointIds.clear();
+    }
+    rebuildSpaceFrame(sfCurrentModel, sfCurrentState);
+    if (sfSelectionCallback) sfSelectionCallback(sfSelectionSnapshot());
+  }
+
+  function showSFWindArrows(windByDir, dirKey) {
+    clearGroup(sfWindArrowGroup);
+    const arr = windByDir && windByDir[dirKey];
+    if (!arr || !arr.length || !sfCurrentModel) return;
+    const step = Math.max(1, Math.floor(arr.length / 40));
+    arr.forEach((n, idx) => {
+      if (idx % step !== 0) return;
+      const mag = Math.sqrt(n.fx * n.fx + n.fy * n.fy + n.fz * n.fz);
+      if (mag < 1e-6) return;
+      const nodeId = sfCurrentModel.layerInfo.topId[n.nodeIndexJ][n.nodeIndexI];
+      const nodeObj = sfCurrentModel.nodes.find(x => x.id === nodeId);
+      if (!nodeObj) return;
+      const dir = new THREE.Vector3(n.fx, n.fy, n.fz).normalize();
+      const len = Utils.clamp(mag * 0.4, 0.4, 3);
+      const origin = new THREE.Vector3(nodeObj.x, nodeObj.y, nodeObj.z).sub(dir.clone().multiplyScalar(len));
+      const color = n.cp < 0 ? 0x2563eb : 0xdc2626;
+      sfWindArrowGroup.add(new THREE.ArrowHelper(dir, origin, len, color, len * 0.3, len * 0.18));
+    });
+  }
+  function clearSFWindArrows() { clearGroup(sfWindArrowGroup); }
+
+
+  return {
+    init, rebuild, frameView, toggleLabels, onSelect, showWindArrows, clearWindArrows, resize, setMode, zoomBy, fitView,
+    // Space Frame additions (purely additive -- nothing above this line changed):
+    rebuildSpaceFrame, setActiveSystem, setSFEditMode, setSFDragAxis, setSFEditTool,
+    getSFSelection, setSFPointSelection, setSFMemberSelection, setSFNodeSelection, clearSFSelection, onSFSelectionChange, onSFDragUpdate, onSFPointCommit,
+    refreshSFPositionsOnly, frameViewSF, showSFWindArrows, clearSFWindArrows
+  };
 })();
 
 </script>
@@ -3570,6 +5595,32 @@ const Viewer = (function () {
       const g = SectionsData.IS2062_GRADES[state.materials.grade];
       if (g) { state.materials.Fy = g.Fy; state.materials.Fu = g.Fu; }
     }
+
+    // ---- Space Frame side effects (spec items 2, 3, 5, 6) ----
+    const sf = state.spaceFrame;
+    if (path === 'spaceFrame.length' || path === 'spaceFrame.width') {
+      sfRescaleControlPoints(state);
+    } else if (path === 'spaceFrame.divX' || path === 'spaceFrame.divY') {
+      SpaceFrame.generateSurface(state); // grid topology changed -- can't preserve point-for-point, start fresh from the formula
+    } else if (path === 'spaceFrame.gridSpacingMode' || path === 'spaceFrame.targetSpacingX' || path === 'spaceFrame.targetSpacingY') {
+      if (sf.gridSpacingMode === 'spacing') {
+        sf.divX = Math.max(1, Math.round(sf.length / (Number(sf.targetSpacingX) || 1)));
+        sf.divY = Math.max(1, Math.round(sf.width / (Number(sf.targetSpacingY) || 1)));
+        populateBoundInputs(document);
+      }
+      SpaceFrame.generateSurface(state);
+    } else if (path.indexOf('spaceFrame.surface.') === 0) {
+      SpaceFrame.generateSurface(state); // real-time formula update (spec item 16) -- see the "baseline vs sculpt" note in the project notes
+    }
+  }
+  // Changing plan Length/Width should rescale the existing footprint
+  // (preserving whatever manual sculpting the control points already
+  // have) rather than silently discarding it the way a divisions change
+  // must.
+  function sfRescaleControlPoints(state) {
+    const sf = state.spaceFrame;
+    if (!Array.isArray(sf.controlPoints) || !sf.controlPoints.length) { SpaceFrame.generateSurface(state); return; }
+    sf.controlPoints.forEach(p => { p.x = sf.length * p.i / sf.divX; p.z = sf.width * p.j / sf.divY; });
   }
   function el_none_diagonal() { return true; }
 
@@ -3622,6 +5673,7 @@ const Viewer = (function () {
 
     document.querySelectorAll('#truss-type-cards .card').forEach(c => c.classList.toggle('active', c.dataset.value === g.trussType));
     document.getElementById('unit-select').value = AppState.get().project.unitSystem;
+    updateSFFieldVisibility();
   }
 
   // ---------------------------------------------------------------
@@ -3630,7 +5682,9 @@ const Viewer = (function () {
   function wireNav() {
     document.querySelectorAll('#nav-rail .nav-item').forEach(btn => {
       btn.addEventListener('click', () => {
-        AppState.get().ui.activePanel = btn.dataset.panel;
+        const isSF = btn.dataset.panel.indexOf('sf-') === 0;
+        if (isSF) AppState.get().ui.activeSFPanel = btn.dataset.panel;
+        else AppState.get().ui.activePanel = btn.dataset.panel;
         document.querySelectorAll('#nav-rail .nav-item').forEach(b => b.classList.toggle('active', b === btn));
         document.querySelectorAll('#input-panel-host .panel').forEach(p => p.classList.toggle('active', p.dataset.panel === btn.dataset.panel));
       });
@@ -3951,28 +6005,27 @@ const Viewer = (function () {
   }
 
   // ---------------------------------------------------------------
-  // Cpe auto-calculation UI: refreshes the plain wall inputs (the
-  // zone table's own inputs are rebuilt fresh by renderCpeZones
-  // below) and the explanatory hint showing which geometry-derived
-  // h/w, l/w band this recalc used.
+  // Cpe auto-calculation UI: refreshes every plain data-path input
+  // inside the Cpe tab (the length/width/height fields duplicated
+  // there, and the wall Cpe fields) so they reflect whatever changed
+  // — including edits made from the main Geometry tab. The zone
+  // table's own inputs are rebuilt fresh by renderCpeZones below, so
+  // they don't need this.
   // ---------------------------------------------------------------
-  function populateCpeWallInputs() {
-    ['cpe0', 'cpe90'].forEach(which => {
-      ['windwardWall', 'leewardWall', 'sideWall'].forEach(f => {
-        const el = document.querySelector(`input[data-path="wind.${which}.${f}"]`);
-        if (el) el.value = AppState.get().wind[which][f];
-      });
-    });
+  function refreshCpeTabInputs() {
+    const host = document.querySelector('[data-wtabcontent="cpe"]');
+    if (host) populateBoundInputs(host);
   }
 
   function renderCpeAutoSummary(info) {
     const el = document.getElementById('cpe-auto-summary');
     if (!el) return;
     const w = AppState.get().wind;
+    const note = info.lengthIsLonger ? '' : ' Width is greater than length here, so the along-length and across-width cases use the code\u2019s tables the other way round \u2014 this is handled automatically.';
     if (w.cpeAuto) {
-      el.textContent = `Using h/w = ${Utils.formatNumber(info.hw, 2)} (${info.hwLabel}) and l/w = ${Utils.formatNumber(info.lw, 2)} (${info.lwLabel}) from the current geometry \u2014 wall Cpe from IS 875 (Part 3) Table 4/5, roof zone Cpe from Table 5/6 interpolated on roof angle. Turn this off to type your own values.`;
+      el.textContent = `Using h/w = ${Utils.formatNumber(info.hw, 2)} (${info.hwLabel}) and l/w = ${Utils.formatNumber(info.lw, 2)} (${info.lwLabel}) from the current geometry \u2014 wall Cpe from IS 875 (Part 3) Table 4/5, roof zone Cpe from Table 5/6 interpolated on roof angle.${note} Turn this off to type your own values.`;
     } else {
-      el.textContent = `Off \u2014 enter Cpe values below yourself. (For reference, this geometry gives h/w = ${Utils.formatNumber(info.hw, 2)} (${info.hwLabel}), l/w = ${Utils.formatNumber(info.lw, 2)} (${info.lwLabel}).)`;
+      el.textContent = `Off \u2014 enter Cpe values below yourself. (For reference, this geometry gives h/w = ${Utils.formatNumber(info.hw, 2)} (${info.hwLabel}), l/w = ${Utils.formatNumber(info.lw, 2)} (${info.lwLabel}).${note})`;
     }
   }
 
@@ -4267,7 +6320,9 @@ STAAD.Pro opens the model</pre>`);
       setTimeout(() => w.print(), 300);
     });
 
-    document.querySelectorAll('#viewer-toolbar [data-view]').forEach(btn => btn.addEventListener('click', () => Viewer.frameView(btn.dataset.view)));
+    document.querySelectorAll('#viewer-toolbar [data-view]').forEach(btn => btn.addEventListener('click', () => {
+      if (AppState.get().structuralSystem === 'spaceFrame') Viewer.frameViewSF(btn.dataset.view); else Viewer.frameView(btn.dataset.view);
+    }));
 
     // ETABS-style Rotate/Pan mode toggle + click-to-zoom + zoom-to-fit
     const modeBtns = { rotate: document.getElementById('btn-mode-rotate'), pan: document.getElementById('btn-mode-pan') };
@@ -4279,7 +6334,9 @@ STAAD.Pro opens the model</pre>`);
     modeBtns.pan.addEventListener('click', () => setViewMode('pan'));
     document.getElementById('btn-zoom-in').addEventListener('click', () => Viewer.zoomBy(0.8));
     document.getElementById('btn-zoom-out').addEventListener('click', () => Viewer.zoomBy(1.25));
-    document.getElementById('btn-zoom-fit').addEventListener('click', () => Viewer.fitView());
+    document.getElementById('btn-zoom-fit').addEventListener('click', () => {
+      if (AppState.get().structuralSystem === 'spaceFrame') Viewer.frameViewSF(null); else Viewer.fitView();
+    });
 
     // Show/Hide layers dropdown (checkboxes themselves are generic
     // [data-path]-bound -- see bindAllInputs -- only open/close needs wiring)
@@ -4336,7 +6393,7 @@ STAAD.Pro opens the model</pre>`);
       updateFieldVisibility();
       renderCpeZones();
       renderCpeAutoSummary(cpeAutoInfo);
-      populateCpeWallInputs();
+      refreshCpeTabInputs();
       renderBracedBays();
       renderRoofBracedBays();
 
@@ -4347,13 +6404,17 @@ STAAD.Pro opens the model</pre>`);
       document.getElementById('drawer-warnings').innerHTML = `<div class="msg-group errors"><h4>Unexpected error</h4><p>${Utils.escapeHTML(err.message)}</p><p class="hint">Check the values you just entered — the app will recover once they're corrected.</p></div>`;
     }
   }
-  const scheduleRecalc = Utils.debounce(recalcAll, 150);
+  function recalcActive() {
+    if (AppState.get().structuralSystem === 'spaceFrame') recalcSpaceFrame(); else recalcAll();
+  }
+  const scheduleRecalc = Utils.debounce(recalcActive, 150);
 
   function fullRefresh() {
     populateBoundInputs(document);
     renderSectionsEditor();
     renderCustomTrussEditor();
-    recalcAll();
+    renderSFSectionsEditor();
+    recalcActive();
   }
 
   // ---------------------------------------------------------------
@@ -4366,8 +6427,557 @@ STAAD.Pro opens the model</pre>`);
     Viewer.init(document.getElementById('viewer-canvas-container'));
     Viewer.setMode('rotate');
     Viewer.onSelect(renderPropertiesPanel);
+    Viewer.setActiveSystem(AppState.get().structuralSystem || 'peb');
     fullRefresh();
   });
+
+  // ================================================================
+  // SPACE FRAME UI (spec items 1-27) — everything below is additive:
+  // it only runs when structuralSystem === 'spaceFrame', reuses the
+  // same [data-path] binding engine, the same properties panel and
+  // bottom drawer as the PEB system, and never calls recalcAll() or
+  // touches state.derived/state.geometry/etc.
+  // ================================================================
+
+  const SF_KIND_OPTS = ['CHS', 'SHS', 'RHS', 'PIPE', 'ISMB', 'ISMC', 'CUSTOM'];
+  const SF_SECTION_GROUPS = [['topChord', 'Top Chord'], ['bottomChord', 'Bottom Chord'], ['diagonal', 'Diagonal'], ['vertical', 'Vertical'], ['edge', 'Edge Member']];
+  function sfCustomDimFields(kind, custom) { return customDimFields(kind === 'PIPE' ? 'CHS' : kind, custom); }
+  function sfSteelSummaryHTML(sec) {
+    const props = SpaceFrameStaad.sfSectionProperties(sec);
+    if (!props && !sec.designation) return '<p class="hint">Select a valid section.</p>';
+    if (['ISMB', 'ISMC'].includes(sec.kind)) {
+      const table = sec.kind === 'ISMB' ? SectionsData.ISMB : SectionsData.ISMC;
+      const d = table[sec.designation];
+      if (!d) return '<p class="hint">Select a valid designation.</p>';
+      return `<p class="hint">D ${d.D} mm · B ${d.B} mm · unit wt ${d.unitWeight} kN/m — exact IS 808 properties come from STAAD's own <span class="mono">TABLE ST ${Utils.escapeHTML(sec.designation)}</span>.</p>`;
+    }
+    if (!props) return '<p class="hint">Enter valid dimensions.</p>';
+    return `<p class="hint">Area ${Utils.formatNumber(props.AX * 1e4, 2)} cm² · Iz ${Utils.formatNumber(props.IZ * 1e8, 1)} cm⁴ · Iy ${Utils.formatNumber(props.IY * 1e8, 1)} cm⁴</p>`;
+  }
+
+  function renderSFSectionsEditor() {
+    const host = document.getElementById('sf-sections-editor');
+    if (!host) return;
+    const state = AppState.get();
+    let html = '';
+    SF_SECTION_GROUPS.forEach(([key, label]) => {
+      const s = state.spaceFrame.sections[key];
+      const isCatalog = ['ISMB', 'ISMC'].includes(s.kind);
+      html += `<div class="section-group" data-sfskey="${key}">
+        <h3>${label}</h3>
+        <div class="field-row">
+          <div class="field"><label>Type</label><select data-sfskind="${key}">${SF_KIND_OPTS.map(k => `<option value="${k}" ${s.kind === k ? 'selected' : ''}>${k}</option>`).join('')}</select></div>
+          <div class="field" style="${isCatalog ? '' : 'display:none'}"><label>Designation</label>
+            <select data-sfsdesig="${key}">${(isCatalog ? SectionsData.listDesignations(s.kind) : []).map(d => `<option value="${d}" ${s.designation === d ? 'selected' : ''}>${d}</option>`).join('')}</select>
+          </div>
+        </div>
+        <div class="field-row custom-dims" style="${isCatalog ? 'display:none' : ''}">${sfCustomDimFields(s.kind, s.custom)}</div>
+        <div>${sfSteelSummaryHTML(s)}</div>
+      </div>`;
+    });
+    host.innerHTML = html;
+    host.querySelectorAll('[data-sfskind]').forEach(sel => sel.addEventListener('change', (e) => {
+      const key = e.target.dataset.sfskind, kind = e.target.value;
+      const s = AppState.get().spaceFrame.sections[key];
+      s.kind = kind;
+      if (['ISMB', 'ISMC'].includes(kind)) { s.designation = SectionsData.listDesignations(kind)[0]; s.custom = null; }
+      else { s.custom = s.custom || (kind === 'PIPE' || kind === 'CHS' ? { Do: 114.3, t: 4.5 } : kind === 'SHS' ? { D: 100, t: 5 } : kind === 'RHS' ? { D: 100, B: 50, t: 5 } : { AX: 0.005, IZ: 0.00005, IY: 0.00002, depthM: 0.2, widthM: 0.1, unitWeightKNm: 0.4 }); }
+      scheduleRecalc(); renderSFSectionsEditor();
+    }));
+    host.querySelectorAll('[data-sfsdesig]').forEach(sel => sel.addEventListener('change', (e) => {
+      AppState.get().spaceFrame.sections[e.target.dataset.sfsdesig].designation = e.target.value;
+      scheduleRecalc(); renderSFSectionsEditor();
+    }));
+    host.querySelectorAll('[data-cdim]').forEach(inp => inp.addEventListener('change', (e) => {
+      const key = e.target.closest('[data-sfskey]').dataset.sfskey;
+      const s = AppState.get().spaceFrame.sections[key];
+      s.custom = s.custom || {};
+      s.custom[e.target.dataset.cdim] = Number(e.target.value);
+      scheduleRecalc(); renderSFSectionsEditor();
+    }));
+  }
+
+  function renderSFMemberListTable(sfModel, state) {
+    const host = document.getElementById('sf-member-list-table');
+    if (!host) return;
+    const selected = Viewer.getSFSelection().memberIds;
+    let html = '<table><thead><tr><th></th><th>Member</th><th>Start</th><th>End</th><th>Group</th><th>Section</th><th>Length (m)</th></tr></thead><tbody>';
+    sfModel.members.forEach(m => {
+      const secKey = SpaceFrameStaad.GROUP_TO_SF_SECTION_KEY[m.group];
+      const sec = secKey ? state.spaceFrame.sections[secKey] : null;
+      const secLabel = sec ? (sec.designation || sec.kind) : '-';
+      html += `<tr class="${selected.includes(m.id) ? 'row-selected' : ''}"><td><input type="checkbox" data-sfmrow="${m.id}" ${selected.includes(m.id) ? 'checked' : ''}></td><td>${m.id}</td><td>${m.ni}</td><td>${m.nj}</td><td>${m.group}</td><td>${Utils.escapeHTML(secLabel)}</td><td>${Utils.formatNumber(m.length, 3)}</td></tr>`;
+    });
+    host.innerHTML = html + '</tbody></table>';
+    document.getElementById('sf-selected-members-count').value = String(selected.length);
+    host.querySelectorAll('[data-sfmrow]').forEach(cb => cb.addEventListener('change', () => {
+      const ids = Array.from(host.querySelectorAll('[data-sfmrow]:checked')).map(el => Number(el.dataset.sfmrow));
+      Viewer.setSFMemberSelection(ids);
+    }));
+  }
+
+  function renderSFSupportList() {
+    const host = document.getElementById('sf-support-list');
+    const hint = document.getElementById('sf-support-count-hint');
+    if (!host) return;
+    const state = AppState.get();
+    const ids = state.spaceFrame.supports.nodeIds || [];
+    if (hint) hint.textContent = `${ids.length} support node(s) assigned (${state.spaceFrame.supports.type}).`;
+    if (!ids.length) { host.innerHTML = '<p class="hint">No supports assigned yet.</p>'; return; }
+    let html = '<table><thead><tr><th>Node</th><th></th></tr></thead><tbody>';
+    ids.forEach(id => { html += `<tr><td>${id}</td><td><button class="btn tiny" data-sfremovesupport="${id}">Remove</button></td></tr>`; });
+    host.innerHTML = html + '</tbody></table>';
+    host.querySelectorAll('[data-sfremovesupport]').forEach(btn => btn.addEventListener('click', () => {
+      const id = Number(btn.dataset.sfremovesupport);
+      state.spaceFrame.supports.nodeIds = state.spaceFrame.supports.nodeIds.filter(x => x !== id);
+      scheduleRecalc();
+    }));
+  }
+
+  function renderSFWarnings(validation) {
+    const host = document.getElementById('drawer-warnings');
+    let html = '';
+    if (validation.errors.length) html += '<div class="msg-group errors"><h4>ERRORS (blocking STAAD export)</h4><ul>' + validation.errors.map(e => `<li>ERROR: ${Utils.escapeHTML(e)}</li>`).join('') + '</ul></div>';
+    if (validation.warnings.length) html += '<div class="msg-group warnings"><h4>WARNINGS</h4><ul>' + validation.warnings.map(w => `<li>WARNING: ${Utils.escapeHTML(w)}</li>`).join('') + '</ul></div>';
+    if (!validation.errors.length && !validation.warnings.length) html = '<p class="hint ok">No errors or warnings.</p>';
+    host.innerHTML = html;
+    const summaryHost = document.getElementById('sf-validation-summary');
+    if (summaryHost) summaryHost.innerHTML = html;
+    const badge = document.getElementById('warning-count-badge');
+    const total = validation.errors.length + validation.warnings.length;
+    badge.textContent = total ? String(total) : '';
+    badge.className = 'count-badge' + (validation.errors.length ? ' error' : total ? ' warn' : '');
+    const dl = document.getElementById('btn-sf-download-std'); if (dl) dl.disabled = validation.errors.length > 0;
+  }
+
+  function renderSFStaadPreview(text) {
+    document.getElementById('staad-full-preview').textContent = text;
+    document.getElementById('staad-mini-preview').textContent = text;
+  }
+
+  function renderSFReportView(state, sfModel, validation) {
+    const summary = SpaceFrameReport.buildSummary(state, sfModel, validation);
+    state.sfDerived.reportSummary = summary;
+    const html = `<pre class="mono report-pre">${Utils.escapeHTML(SpaceFrameReport.toText(summary))}</pre>`;
+    const el1 = document.getElementById('sf-report-view'); if (el1) el1.innerHTML = html;
+  }
+
+  function sfSelectionSummaryText(sel) {
+    const parts = [];
+    if (sel.pointIds.length) parts.push(`${sel.pointIds.length} control point${sel.pointIds.length > 1 ? 's' : ''}`);
+    if (sel.memberIds.length) parts.push(`${sel.memberIds.length} member${sel.memberIds.length > 1 ? 's' : ''}`);
+    if (sel.nodeIds.length) parts.push(`${sel.nodeIds.length} node${sel.nodeIds.length > 1 ? 's' : ''}`);
+    return parts.length ? parts.join(', ') + ' selected' : '0 selected';
+  }
+
+  function updateSFSelectionUI(sel) {
+    sel = sel || Viewer.getSFSelection();
+    const badge = document.getElementById('sf-selection-summary');
+    if (badge) badge.textContent = sfSelectionSummaryText(sel);
+    const state = AppState.get();
+
+    if (sel.pointIds.length === 1) {
+      const p = state.spaceFrame.controlPoints.find(cp => cp.id === sel.pointIds[0]);
+      if (p) {
+        document.getElementById('sf-sel-x').value = Utils.round(p.x, 3);
+        document.getElementById('sf-sel-y').value = Utils.round(p.y, 3);
+        document.getElementById('sf-sel-z').value = Utils.round(p.z, 3);
+      }
+    }
+
+    const host = document.getElementById('properties-content');
+    if (host && (sel.pointIds.length || sel.memberIds.length || sel.nodeIds.length)) {
+      const sfModel = state.sfDerived.model;
+      if (sel.pointIds.length === 1 && sfModel) {
+        const p = state.spaceFrame.controlPoints.find(cp => cp.id === sel.pointIds[0]);
+        host.innerHTML = `<h3>Control Point ${p.id}</h3><table><tbody>
+          <tr><td>Grid index (i, j)</td><td>${p.i}, ${p.j}</td></tr>
+          <tr><td>X</td><td>${Utils.formatNumber(p.x, 3)} m</td></tr>
+          <tr><td>Y (elevation)</td><td>${Utils.formatNumber(p.y, 3)} m</td></tr>
+          <tr><td>Z</td><td>${Utils.formatNumber(p.z, 3)} m</td></tr>
+          <tr><td>On boundary edge</td><td>${p.edge ? 'Yes' : 'No'}</td></tr>
+          <tr><td>Corner</td><td>${p.corner ? 'Yes' : 'No'}</td></tr>
+          <tr><td>Support assigned</td><td>${state.spaceFrame.supports.nodeIds.includes(p.id) ? state.spaceFrame.supports.type.toUpperCase() : 'None'}</td></tr>
+        </tbody></table>`;
+      } else if (sel.memberIds.length === 1 && sfModel) {
+        const m = sfModel.members.find(mm => mm.id === sel.memberIds[0]);
+        const secKey = SpaceFrameStaad.GROUP_TO_SF_SECTION_KEY[m.group];
+        const sec = secKey ? state.spaceFrame.sections[secKey] : null;
+        host.innerHTML = `<h3>Member ${m.id}</h3><table><tbody>
+          <tr><td>Group</td><td>${m.group}</td></tr>
+          <tr><td>Start / End Node</td><td>${m.ni} / ${m.nj}</td></tr>
+          <tr><td>Length</td><td>${Utils.formatNumber(m.length, 3)} m</td></tr>
+          <tr><td>Section</td><td>${sec ? (sec.designation || sec.kind) : '—'}</td></tr>
+          <tr><td>Release</td><td>${secKey ? state.spaceFrame.releases[secKey] : '—'}</td></tr>
+        </tbody></table>`;
+      } else {
+        host.innerHTML = `<p class="hint">${sfSelectionSummaryText(sel)}.</p>`;
+      }
+    } else if (host && state.structuralSystem === 'spaceFrame') {
+      host.innerHTML = '<p class="hint">Turn on Edit Surface above the 3D view, then click a control point, member or node to see its properties here.</p>';
+    }
+    renderSFMemberListTableIfNeeded();
+  }
+  function renderSFMemberListTableIfNeeded() {
+    const state = AppState.get();
+    if (state.structuralSystem === 'spaceFrame' && state.sfDerived.model) renderSFMemberListTable(state.sfDerived.model, state);
+  }
+
+  // ---------------------------------------------------------------
+  // Field visibility (shape-specific params, divisions/spacing,
+  // depth mode, grid-pattern honesty note, member/layer hints)
+  // ---------------------------------------------------------------
+  function updateSFFieldVisibility() {
+    const sf = AppState.get().spaceFrame;
+    document.querySelectorAll('#sf-type-cards .card').forEach(c => c.classList.toggle('active', c.dataset.value === sf.type));
+    const typeNotes = {
+      flat: 'A flat grid — the simplest space frame, ideal as a base for freeform sculpting.',
+      gable: 'Classic pitched roof — set eave, ridge and ridge position in the next step.',
+      singleSlope: 'One continuous slope from eave to eave — good for lean-to/mono-pitch canopies.',
+      barrel: 'A cylindrical vault — set rise and pick which plan axis the arch spans.',
+      dome: 'A dome cap that touches down evenly all round the rectangular plan.',
+      pyramid: 'A four-sided hip/pyramid shape, flat at the eave and peaked at the centre.',
+      wave: 'A sinusoidal roof — set wave height, count, direction and phase.',
+      saddle: 'A hyperbolic-paraboloid (hypar) roof — two corners rise, two fall, blending through a depressed centre.',
+      freeform: 'Starts perfectly flat with no formula — sculpt it entirely with the 3D Edit tools.'
+    };
+    const note = document.getElementById('sf-type-note'); if (note) note.textContent = typeNotes[sf.type] || '';
+
+    document.querySelectorAll('#sf-surface-fields [data-shapefields]').forEach(el => {
+      const list = el.dataset.shapefields.split(',');
+      el.style.display = list.includes(sf.type) ? '' : 'none';
+    });
+
+    const divMode = sf.gridSpacingMode !== 'spacing';
+    const fd = document.getElementById('sf-field-divisions'); if (fd) fd.style.display = divMode ? '' : 'none';
+    const fs = document.getElementById('sf-field-spacing'); if (fs) fs.style.display = divMode ? 'none' : '';
+    const gh = document.getElementById('sf-grid-resolved-hint');
+    if (gh) gh.textContent = `Resolved grid: ${sf.divX} × ${sf.divY} divisions → spacing ≈ ${Utils.formatNumber(sf.length / sf.divX, 2)} m × ${Utils.formatNumber(sf.width / sf.divY, 2)} m.`;
+
+    const depthAuto = sf.depth.mode === 'auto';
+    const dv = document.getElementById('sf-field-depthvalue'); if (dv) dv.style.display = depthAuto ? 'none' : '';
+    const dah = document.getElementById('sf-depth-auto-hint');
+    if (dah) dah.textContent = depthAuto ? `Automatic depth ≈ ${Utils.formatNumber(SpaceFrame.autoDepth(sf), 3)} m (min(length,width)/20, min 0.4 m).` : '';
+    document.getElementById('sf-depth-fields').style.display = sf.layers === 'single' ? 'none' : '';
+
+    const resolved = SpaceFrame.resolvePattern(sf.gridPattern);
+    const gpn = document.getElementById('sf-gridpattern-note');
+    if (gpn) gpn.textContent = resolved !== sf.gridPattern ? `Honest scope note: this pattern isn't implemented yet, so "${resolved}" connectivity is used instead until it is.` : '';
+    const diagField = document.getElementById('sf-diagonalpattern-field');
+    if (diagField) diagField.style.display = (sf.layers === 'single' || resolved === 'square' || resolved === 'diagonalGrid') ? '' : 'none';
+
+    const isOffset = resolved === 'offsetPyramid';
+    const bcRow = document.getElementById('sf-member-bottomchord'); if (bcRow) bcRow.style.display = sf.layers === 'single' ? 'none' : '';
+    const dgRow = document.getElementById('sf-member-diagonal'); if (dgRow) dgRow.style.display = '';
+    const vtRow = document.getElementById('sf-member-vertical'); if (vtRow) vtRow.style.display = (sf.layers !== 'single' && !isOffset) ? '' : 'none';
+    const vpField = document.getElementById('sf-verticalpattern-field'); if (vpField) vpField.style.display = (sf.layers !== 'single' && !isOffset && sf.members.vertical) ? '' : 'none';
+    const mlh = document.getElementById('sf-member-layer-hint');
+    if (mlh) mlh.textContent = sf.layers === 'single'
+      ? 'Single layer: "Diagonal" braces the top surface itself (a lattice/gridshell).'
+      : (isOffset ? 'Square-on-Square: "Diagonal" generates the classic 4-way offset pyramid web automatically — Vertical members don\u2019t apply to this pattern.' : '"Diagonal"/"Vertical" connect the top and bottom layers.');
+
+    document.getElementById('sf-wind-fields').style.display = sf.loads.wind.enabled ? '' : 'none';
+  }
+
+  // ---------------------------------------------------------------
+  // Undo / Redo (spec item 21) -- simple snapshot stack over the
+  // spaceFrame sub-tree only (shape/control points/params), pushed on
+  // every COMMITTED edit (drag release, numeric apply, tool button,
+  // preset change) rather than on every keystroke.
+  // ---------------------------------------------------------------
+  let sfUndoStack = [], sfRedoStack = [];
+  function sfSnapshot() { return JSON.stringify(AppState.get().spaceFrame); }
+  function pushSFHistory() {
+    sfUndoStack.push(sfSnapshot());
+    if (sfUndoStack.length > 60) sfUndoStack.shift();
+    sfRedoStack = [];
+  }
+  function undoSF() {
+    if (!sfUndoStack.length) return;
+    sfRedoStack.push(sfSnapshot());
+    AppState.get().spaceFrame = JSON.parse(sfUndoStack.pop());
+    populateBoundInputs(document); updateFieldVisibility(); recalcSpaceFrame();
+  }
+  function redoSF() {
+    if (!sfRedoStack.length) return;
+    sfUndoStack.push(sfSnapshot());
+    AppState.get().spaceFrame = JSON.parse(sfRedoStack.pop());
+    populateBoundInputs(document); updateFieldVisibility(); recalcSpaceFrame();
+  }
+
+  // ---------------------------------------------------------------
+  // Recalculation pipeline (mirrors recalcAll(), spec item 16)
+  // ---------------------------------------------------------------
+  function recalcSpaceFrame() {
+    const state = AppState.get();
+    try {
+      const sfModel = SpaceFrame.regenerateSpaceFrame(state);
+      const validation = SpaceFrameValidation.run(state, sfModel);
+      const staadText = validation.errors.length ? '* Fix the ERROR(S) listed below before the STAAD file can be generated.\n\n' +
+        validation.errors.map(e => '* ERROR: ' + e).join('\n') : SpaceFrameStaad.generate(state, sfModel);
+
+      state.sfDerived = { model: sfModel, validation, staadText, reportSummary: state.sfDerived.reportSummary };
+
+      Viewer.rebuildSpaceFrame(sfModel, state);
+      renderSFWarnings(validation);
+      renderSFStaadPreview(staadText);
+      renderSFReportView(state, sfModel, validation);
+      renderSFSupportList();
+      renderSFMemberListTable(sfModel, state);
+      updateSFSelectionUI();
+      updateFieldVisibility();
+
+      document.getElementById('header-project-name').textContent = state.project.name;
+      document.getElementById('header-unit-badge').textContent = state.project.unitSystem === 'mm-N' ? 'mm · N' : 'm · kN';
+    } catch (err) {
+      console.error(err);
+      document.getElementById('drawer-warnings').innerHTML = `<div class="msg-group errors"><h4>Unexpected error</h4><p>${Utils.escapeHTML(err.message)}</p><p class="hint">Check the values you just entered — the app will recover once they're corrected.</p></div>`;
+    }
+  }
+
+  // ---------------------------------------------------------------
+  // Mode switch
+  // ---------------------------------------------------------------
+  function setStructuralMode(mode) {
+    const state = AppState.get();
+    state.structuralSystem = mode;
+    document.getElementById('sys-btn-peb').classList.toggle('active', mode === 'peb');
+    document.getElementById('sys-btn-spaceframe').classList.toggle('active', mode === 'spaceFrame');
+    document.getElementById('nav-peb-items').style.display = mode === 'peb' ? '' : 'none';
+    document.getElementById('nav-sf-items').style.display = mode === 'spaceFrame' ? '' : 'none';
+    document.getElementById('peb-wind-arrow-label').style.display = mode === 'peb' ? '' : 'none';
+    document.getElementById('sf-wind-arrow-label').style.display = mode === 'spaceFrame' ? '' : 'none';
+    document.getElementById('show-hide-dropdown').style.display = mode === 'peb' ? '' : 'none';
+    document.getElementById('sf-show-hide-dropdown').style.display = mode === 'spaceFrame' ? '' : 'none';
+    document.getElementById('vt-group-sf-edit').style.display = mode === 'spaceFrame' ? '' : 'none';
+
+    const wantPanel = mode === 'peb' ? (state.ui.activePanel || 'project') : (state.ui.activeSFPanel || 'sf-type');
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.panel === wantPanel));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.dataset.panel === wantPanel));
+
+    Viewer.setActiveSystem(mode);
+    if (mode === 'spaceFrame') { SpaceFrame.ensureControlPoints(state); recalcSpaceFrame(); }
+    else recalcAll();
+  }
+
+  // ---------------------------------------------------------------
+  // Wiring
+  // ---------------------------------------------------------------
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('sys-btn-peb').addEventListener('click', () => setStructuralMode('peb'));
+    document.getElementById('sys-btn-spaceframe').addEventListener('click', () => setStructuralMode('spaceFrame'));
+
+    // Shape type cards (spec items 2, 17)
+    document.querySelectorAll('#sf-type-cards .card').forEach(card => {
+      card.addEventListener('click', () => {
+        pushSFHistory();
+        AppState.get().spaceFrame.type = card.dataset.value;
+        SpaceFrame.generateSurface(AppState.get());
+        updateSFFieldVisibility();
+        scheduleRecalc();
+      });
+    });
+
+    // ---- Edit Surface mode + tool + drag axis ----
+    const editBtn = document.getElementById('btn-sf-edit-toggle');
+    let sfEditOn = false;
+    editBtn.addEventListener('click', () => {
+      sfEditOn = !sfEditOn;
+      Viewer.setSFEditMode(sfEditOn);
+      editBtn.textContent = `✏ Edit Surface: ${sfEditOn ? 'On' : 'Off'}`;
+      editBtn.classList.toggle('active', sfEditOn);
+    });
+    function setSFToolButtons(tool) {
+      Viewer.setSFEditTool(tool);
+      document.getElementById('btn-sf-tool-select').classList.toggle('active', tool === 'select');
+      document.getElementById('btn-sf-tool-box').classList.toggle('active', tool === 'box');
+    }
+    document.getElementById('btn-sf-tool-select').addEventListener('click', () => setSFToolButtons('select'));
+    document.getElementById('btn-sf-tool-box').addEventListener('click', () => setSFToolButtons('box'));
+    document.getElementById('sf-drag-axis-select').addEventListener('change', (e) => Viewer.setSFDragAxis(e.target.value));
+
+    // ---- Viewer selection / drag callbacks ----
+    Viewer.onSFSelectionChange((sel) => updateSFSelectionUI(sel));
+    let sfDragRaf = null;
+    Viewer.onSFDragUpdate(() => {
+      if (sfDragRaf) return;
+      sfDragRaf = requestAnimationFrame(() => { Viewer.refreshSFPositionsOnly(); sfDragRaf = null; });
+    });
+    Viewer.onSFPointCommit(() => { pushSFHistory(); recalcSpaceFrame(); });
+
+    // ---- SF wind arrow selector ----
+    document.getElementById('sf-wind-arrow-select').addEventListener('change', (e) => {
+      const state = AppState.get();
+      if (!state.sfDerived.model) return;
+      if (e.target.value) Viewer.showSFWindArrows(state.sfDerived.model.windByDir, e.target.value);
+      else Viewer.clearSFWindArrows();
+    });
+
+    // ---- Show/Hide (SF) dropdown open/close + bulk buttons ----
+    const sfShowHideBtn = document.getElementById('btn-sf-show-hide');
+    const sfShowHidePanel = document.getElementById('sf-show-hide-panel');
+    sfShowHideBtn.addEventListener('click', (e) => { e.stopPropagation(); sfShowHidePanel.classList.toggle('open'); });
+    document.addEventListener('click', (e) => { if (!sfShowHidePanel.contains(e.target) && e.target !== sfShowHideBtn) sfShowHidePanel.classList.remove('open'); });
+    const SF_VIS_KEYS = ['topChord', 'bottomChord', 'diagonal', 'vertical', 'edge', 'crossDiagonal', 'nodes', 'controlPoints', 'supports', 'topSurface', 'bottomSurface'];
+    document.getElementById('btn-sf-show-all').addEventListener('click', () => { const vg = AppState.get().spaceFrame.ui.visibleGroups; SF_VIS_KEYS.forEach(k => vg[k] = true); populateBoundInputs(document); scheduleRecalc(); });
+    document.getElementById('btn-sf-hide-all').addEventListener('click', () => { const vg = AppState.get().spaceFrame.ui.visibleGroups; SF_VIS_KEYS.forEach(k => vg[k] = false); populateBoundInputs(document); scheduleRecalc(); });
+    document.getElementById('btn-sf-hide-selected').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (sel.pointIds.length) { const vg = AppState.get().spaceFrame.ui.visibleGroups; vg.controlPoints = false; populateBoundInputs(document); }
+      scheduleRecalc();
+    });
+    document.getElementById('btn-sf-isolate-selected').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      const memberGroups = new Set(); const state = AppState.get();
+      if (state.sfDerived.model) sel.memberIds.forEach(id => { const m = state.sfDerived.model.members.find(mm => mm.id === id); if (m) memberGroups.add(m.group); });
+      const vg = AppState.get().spaceFrame.ui.visibleGroups;
+      ['topChord', 'bottomChord', 'diagonal', 'vertical', 'edge', 'crossDiagonal'].forEach(k => vg[k] = memberGroups.size ? memberGroups.has(k) : vg[k]);
+      populateBoundInputs(document); scheduleRecalc();
+    });
+
+    // ---- 3D Edit panel: coordinates / move / rotate / scale ----
+    document.getElementById('btn-sf-apply-xyz').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (sel.pointIds.length !== 1) { alert('Select exactly one control point first.'); return; }
+      pushSFHistory();
+      SpaceFrame.updateControlPoint(AppState.get(), sel.pointIds[0], { x: Number(document.getElementById('sf-sel-x').value), y: Number(document.getElementById('sf-sel-y').value), z: Number(document.getElementById('sf-sel-z').value) });
+      recalcSpaceFrame();
+    });
+    document.getElementById('btn-sf-apply-move').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (!sel.pointIds.length) { alert('Select one or more control points first (turn on Edit Surface, then click or box-select).'); return; }
+      pushSFHistory();
+      const dx = Number(document.getElementById('sf-move-x').value) || 0, dy = Number(document.getElementById('sf-move-y').value) || 0, dz = Number(document.getElementById('sf-move-z').value) || 0;
+      SpaceFrame.deformSurface(AppState.get(), sel.pointIds, { dx, dy, dz }, {});
+      recalcSpaceFrame();
+    });
+    document.getElementById('btn-sf-apply-rotate').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (sel.pointIds.length < 2) { alert('Select two or more control points first.'); return; }
+      pushSFHistory();
+      const sf = AppState.get().spaceFrame;
+      const pts = sf.controlPoints.filter(p => sel.pointIds.includes(p.id));
+      const cx = pts.reduce((s, p) => s + p.x, 0) / pts.length, cz = pts.reduce((s, p) => s + p.z, 0) / pts.length;
+      const rad = Number(document.getElementById('sf-rotate-deg').value || 0) * Math.PI / 180;
+      const cos = Math.cos(rad), sin = Math.sin(rad);
+      pts.forEach(p => { const dx = p.x - cx, dz = p.z - cz; p.x = cx + dx * cos - dz * sin; p.z = cz + dx * sin + dz * cos; });
+      recalcSpaceFrame();
+    });
+    document.getElementById('btn-sf-apply-scale').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (!sel.pointIds.length) { alert('Select one or more control points first.'); return; }
+      pushSFHistory();
+      const sf = AppState.get().spaceFrame;
+      const pts = sf.controlPoints.filter(p => sel.pointIds.includes(p.id));
+      const avgY = pts.reduce((s, p) => s + p.y, 0) / pts.length;
+      const factor = Number(document.getElementById('sf-scale-factor').value || 1);
+      pts.forEach(p => { p.y = avgY + (p.y - avgY) * factor; });
+      recalcSpaceFrame();
+    });
+
+    // ---- Shape tools ----
+    document.getElementById('btn-sf-smooth').addEventListener('click', () => { pushSFHistory(); const sel = Viewer.getSFSelection(); SpaceFrame.smoothShape(AppState.get(), sel.pointIds.length ? sel.pointIds : null); recalcSpaceFrame(); });
+    document.getElementById('btn-sf-flatten').addEventListener('click', () => { const sel = Viewer.getSFSelection(); if (!sel.pointIds.length) { alert('Select control points to flatten first.'); return; } pushSFHistory(); SpaceFrame.flattenSelection(AppState.get(), sel.pointIds); recalcSpaceFrame(); });
+    document.getElementById('btn-sf-reset-shape').addEventListener('click', () => { if (!confirm('Reset the shape from its formula? This discards manual control-point edits.')) return; pushSFHistory(); SpaceFrame.generateSurface(AppState.get()); recalcSpaceFrame(); });
+    document.getElementById('btn-sf-mirror-x').addEventListener('click', () => { pushSFHistory(); SpaceFrame.mirrorControlPointsInPlace(AppState.get(), 'x'); recalcSpaceFrame(); });
+    document.getElementById('btn-sf-mirror-y').addEventListener('click', () => { pushSFHistory(); SpaceFrame.mirrorControlPointsInPlace(AppState.get(), 'y'); recalcSpaceFrame(); });
+    document.getElementById('btn-sf-copy-shape').addEventListener('click', () => { SpaceFrame.copyShape(AppState.get()); alert('Shape copied.'); });
+    document.getElementById('btn-sf-paste-shape').addEventListener('click', () => { pushSFHistory(); if (!SpaceFrame.pasteShape(AppState.get())) alert('Nothing compatible on the clipboard yet (grid size must match).'); recalcSpaceFrame(); });
+
+    // ---- Edge control ----
+    document.getElementById('btn-sf-select-edges').addEventListener('click', () => Viewer.setSFPointSelection(SpaceFrame.edgeControlPointIds(AppState.get())));
+    document.getElementById('btn-sf-select-corners').addEventListener('click', () => Viewer.setSFPointSelection(SpaceFrame.cornerControlPointIds(AppState.get())));
+    document.getElementById('btn-sf-apply-edge-delta').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (!sel.pointIds.length) { alert('Select edge/corner points first (use the buttons above).'); return; }
+      pushSFHistory();
+      const dy = Number(document.getElementById('sf-edge-delta').value) || 0;
+      SpaceFrame.deformSurface(AppState.get(), sel.pointIds, { dx: 0, dy, dz: 0 }, { radius: 0 });
+      recalcSpaceFrame();
+    });
+
+    // ---- Undo / Redo ----
+    document.getElementById('btn-sf-undo').addEventListener('click', undoSF);
+    document.getElementById('btn-sf-redo').addEventListener('click', redoSF);
+
+    // ---- Shape Morph ----
+    const morphSlider = document.getElementById('sf-morph-slider'), morphPct = document.getElementById('sf-morph-pct');
+    let morphRaf = null;
+    morphSlider.addEventListener('input', () => {
+      const t = Number(morphSlider.value) / 100;
+      morphPct.textContent = Math.round(t * 100) + '%';
+      SpaceFrame.applyMorph(AppState.get(), AppState.get().spaceFrame.morph.targetType, t);
+      if (morphRaf) return;
+      morphRaf = requestAnimationFrame(() => {
+        Viewer.rebuildSpaceFrame(SpaceFrame.regenerateSpaceFrame(AppState.get()), AppState.get());
+        morphRaf = null;
+      });
+    });
+    document.getElementById('btn-sf-morph-commit').addEventListener('click', () => {
+      pushSFHistory();
+      SpaceFrame.commitMorph(AppState.get());
+      morphSlider.value = 0; morphPct.textContent = '0%';
+      recalcSpaceFrame();
+    });
+
+    // ---- Supports ----
+    document.getElementById('btn-sf-supports-corners').addEventListener('click', () => { const sf = AppState.get().spaceFrame; sf.supports.nodeIds = Array.from(new Set([...sf.supports.nodeIds, ...SpaceFrame.cornerControlPointIds(AppState.get())])); scheduleRecalc(); });
+    document.getElementById('btn-sf-supports-edges').addEventListener('click', () => { const sf = AppState.get().spaceFrame; sf.supports.nodeIds = Array.from(new Set([...sf.supports.nodeIds, ...SpaceFrame.edgeControlPointIds(AppState.get())])); scheduleRecalc(); });
+    document.getElementById('btn-sf-supports-selected').addEventListener('click', () => { const sel = Viewer.getSFSelection(); const sf = AppState.get().spaceFrame; sf.supports.nodeIds = Array.from(new Set([...sf.supports.nodeIds, ...sel.pointIds])); scheduleRecalc(); });
+    document.getElementById('btn-sf-supports-clear').addEventListener('click', () => { if (!confirm('Remove all assigned supports?')) return; AppState.get().spaceFrame.supports.nodeIds = []; scheduleRecalc(); });
+
+    // ---- Sections: apply to selected members ----
+    document.getElementById('btn-sf-apply-section-selected').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (!sel.memberIds.length) { alert('Select one or more members in the 3D view or the Member List first.'); return; }
+      pushSFHistory();
+      const category = document.getElementById('sf-apply-section-category').value;
+      // Persisted as an override (spaceFrame.categoryOverrides), NOT written
+      // onto the transient sfDerived.model -- that model is rebuilt from
+      // scratch on every recalculation, so a direct edit there would be
+      // silently lost on the very next keystroke elsewhere in the app.
+      const ov = AppState.get().spaceFrame.categoryOverrides;
+      sel.memberIds.forEach(id => { ov[id] = category; });
+      recalcSpaceFrame();
+    });
+
+    // ---- Point / line loads ----
+    document.getElementById('btn-sf-add-point-load').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (!sel.pointIds.length) { alert('Select one or more nodes first.'); return; }
+      const fy = Number(prompt('Downward force per node, kN (negative = upward):', '-5')); if (!isFinite(fy)) return;
+      const sf = AppState.get().spaceFrame;
+      sel.pointIds.forEach(nodeId => sf.loads.pointLoads.push({ nodeId, fx: 0, fy, fz: 0 }));
+      scheduleRecalc();
+    });
+    document.getElementById('btn-sf-add-line-load').addEventListener('click', () => {
+      const sel = Viewer.getSFSelection();
+      if (sel.memberIds.length !== 1) { alert('Select exactly one member first.'); return; }
+      const w = Number(prompt('UDL magnitude, kN/m (acts downward):', '2')); if (!isFinite(w)) return;
+      AppState.get().spaceFrame.loads.lineLoads.push({ memberId: sel.memberIds[0], w });
+      scheduleRecalc();
+    });
+
+    // ---- STAAD / export buttons ----
+    function sfCopyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => alert('STAAD commands copied to clipboard.')).catch(() => alert('Could not copy automatically — the STAAD preview drawer below can be selected and copied manually.'));
+      else alert('Clipboard access isn\u2019t available here — copy from the STAAD preview drawer below.');
+    }
+    document.getElementById('btn-sf-download-std').addEventListener('click', () => { const state = AppState.get(); Storage.exportSTAAD(state.sfDerived.staadText, state.project.name + '-spaceframe'); });
+    document.getElementById('btn-sf-copy-staad').addEventListener('click', () => sfCopyToClipboard(AppState.get().sfDerived.staadText || ''));
+    document.getElementById('btn-sf-export-nodes-csv').addEventListener('click', () => { const state = AppState.get(); Storage.exportCSV(SpaceFrameReport.nodesCSV(state.sfDerived.model), state.project.name + '-spaceframe', '-nodes'); });
+    document.getElementById('btn-sf-export-members-csv').addEventListener('click', () => { const state = AppState.get(); Storage.exportCSV(SpaceFrameReport.membersCSV(state.sfDerived.model, state), state.project.name + '-spaceframe', '-members'); });
+    document.getElementById('btn-sf-export-nodes-csv-2').addEventListener('click', () => document.getElementById('btn-sf-export-nodes-csv').click());
+    document.getElementById('btn-sf-export-members-csv-2').addEventListener('click', () => document.getElementById('btn-sf-export-members-csv').click());
+    document.getElementById('btn-sf-export-txt').addEventListener('click', () => { const state = AppState.get(); Storage.exportTXT(SpaceFrameReport.toText(state.sfDerived.reportSummary), state.project.name + '-spaceframe', '-report'); });
+    document.getElementById('btn-sf-export-pdf').addEventListener('click', () => {
+      const w = window.open('', '_blank');
+      w.document.write(`<title>${Utils.escapeHTML(AppState.get().project.name)} — Space Frame Report</title>` + SpaceFrameReport.printableHTML(AppState.get().sfDerived.reportSummary));
+      w.document.close();
+      setTimeout(() => w.print(), 300);
+    });
+  });
+
 })();
 
 </script>
